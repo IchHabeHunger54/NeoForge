@@ -51,6 +51,7 @@ import net.minecraft.world.entity.ai.attributes.AttributeModifier;
 import net.minecraft.world.entity.item.ItemEntity;
 import net.minecraft.world.item.Item;
 import net.minecraft.world.item.ItemStack;
+import net.minecraft.world.item.ItemStackTemplate;
 import net.minecraft.world.item.Items;
 import net.minecraft.world.item.SpawnEggItem;
 import net.minecraft.world.item.crafting.display.SlotDisplay;
@@ -70,6 +71,7 @@ import net.minecraft.world.level.levelgen.structure.Structure;
 import net.minecraft.world.level.material.Fluid;
 import net.minecraft.world.level.material.FluidState;
 import net.minecraft.world.level.pathfinder.PathType;
+import net.minecraft.world.level.storage.loot.entries.LootPoolEntryContainer;
 import net.neoforged.api.distmarker.Dist;
 import net.neoforged.bus.api.EventPriority;
 import net.neoforged.bus.api.IEventBus;
@@ -112,11 +114,16 @@ import net.neoforged.neoforge.common.crafting.DataComponentIngredient;
 import net.neoforged.neoforge.common.crafting.DifferenceIngredient;
 import net.neoforged.neoforge.common.crafting.IngredientType;
 import net.neoforged.neoforge.common.crafting.IntersectionIngredient;
+import net.neoforged.neoforge.common.crafting.outgredient.FluidTagOutgredient;
+import net.neoforged.neoforge.common.crafting.outgredient.ItemTagOutgredient;
+import net.neoforged.neoforge.common.crafting.outgredient.Outgredient;
+import net.neoforged.neoforge.common.crafting.outgredient.OutgredientType;
 import net.neoforged.neoforge.common.extensions.IPlayerExtension;
 import net.neoforged.neoforge.common.loot.AddTableLootModifier;
 import net.neoforged.neoforge.common.loot.CanItemPerformAbility;
 import net.neoforged.neoforge.common.loot.IGlobalLootModifier;
 import net.neoforged.neoforge.common.loot.LootTableIdCondition;
+import net.neoforged.neoforge.common.loot.OutgredientLootEntry;
 import net.neoforged.neoforge.common.util.SelfTest;
 import net.neoforged.neoforge.common.world.BiomeModifier;
 import net.neoforged.neoforge.common.world.BiomeModifiers;
@@ -135,6 +142,7 @@ import net.neoforged.neoforge.event.ItemAttributeModifierEvent;
 import net.neoforged.neoforge.event.server.ServerStoppingEvent;
 import net.neoforged.neoforge.fluids.BaseFlowingFluid;
 import net.neoforged.neoforge.fluids.CauldronFluidContent;
+import net.neoforged.neoforge.fluids.FluidStackTemplate;
 import net.neoforged.neoforge.fluids.FluidType;
 import net.neoforged.neoforge.fluids.crafting.CompoundFluidIngredient;
 import net.neoforged.neoforge.fluids.crafting.CustomDisplayFluidIngredient;
@@ -188,6 +196,7 @@ public class NeoForgeMod {
 
     private static final DeferredRegister<Attribute> ATTRIBUTES = DeferredRegister.create(Registries.ATTRIBUTE, MOD_ID);
     private static final DeferredRegister<ArgumentTypeInfo<?, ?>> COMMAND_ARGUMENT_TYPES = DeferredRegister.create(Registries.COMMAND_ARGUMENT_TYPE, MOD_ID);
+    private static final DeferredRegister<MapCodec<? extends LootPoolEntryContainer>> LOOT_POOL_ENTRY_TYPES = DeferredRegister.create(Registries.LOOT_POOL_ENTRY_TYPE, MOD_ID);
     private static final DeferredRegister<MapCodec<? extends IGlobalLootModifier>> GLOBAL_LOOT_MODIFIER_SERIALIZERS = DeferredRegister.create(NeoForgeRegistries.Keys.GLOBAL_LOOT_MODIFIER_SERIALIZERS, MOD_ID);
     private static final DeferredRegister<MapCodec<? extends BiomeModifier>> BIOME_MODIFIER_SERIALIZERS = DeferredRegister.create(NeoForgeRegistries.Keys.BIOME_MODIFIER_SERIALIZERS, MOD_ID);
     private static final DeferredRegister<MapCodec<? extends StructureModifier>> STRUCTURE_MODIFIER_SERIALIZERS = DeferredRegister.create(NeoForgeRegistries.Keys.STRUCTURE_MODIFIER_SERIALIZERS, MOD_ID);
@@ -221,6 +230,9 @@ public class NeoForgeMod {
     ///
     /// If the server is intended to be vanilla-compatible then this attribute must not be applied via item attribute modifiers.
     public static final Holder<Attribute> GLIDING_FLIGHT = ATTRIBUTES.register("gliding_flight", () -> new BooleanAttribute("neoforge.gliding_flight", false).setSyncable(true));
+
+    /// Stock loot pool entry type that adds loot by resolving an outgredient.
+    public static final DeferredHolder<MapCodec<? extends LootPoolEntryContainer>, MapCodec<OutgredientLootEntry>> OUTGREDIENT_LOOT_POOL_ENTRY_TYPE = LOOT_POOL_ENTRY_TYPES.register("outgredient", () -> OutgredientLootEntry.CODEC);
 
     /**
      * Stock loot modifier type that adds loot from a subtable to the final loot.
@@ -366,6 +378,8 @@ public class NeoForgeMod {
     public static final DeferredHolder<SlotDisplay.Type<?>, SlotDisplay.Type<FluidSlotDisplay>> FLUID_SLOT_DISPLAY = SLOT_DISPLAY_TYPES.register("fluid", () -> new SlotDisplay.Type<>(FluidSlotDisplay.MAP_CODEC, FluidSlotDisplay.STREAM_CODEC));
     public static final DeferredHolder<SlotDisplay.Type<?>, SlotDisplay.Type<FluidStackSlotDisplay>> FLUID_STACK_SLOT_DISPLAY = SLOT_DISPLAY_TYPES.register("fluid_stack", () -> new SlotDisplay.Type<>(FluidStackSlotDisplay.MAP_CODEC, FluidStackSlotDisplay.STREAM_CODEC));
     public static final DeferredHolder<SlotDisplay.Type<?>, SlotDisplay.Type<FluidTagSlotDisplay>> FLUID_TAG_SLOT_DISPLAY = SLOT_DISPLAY_TYPES.register("fluid_tag", () -> new SlotDisplay.Type<>(FluidTagSlotDisplay.MAP_CODEC, FluidTagSlotDisplay.STREAM_CODEC));
+    public static final DeferredHolder<SlotDisplay.Type<?>, SlotDisplay.Type<ItemTagOutgredient.Display>> ITEM_TAG_OUTGREDIENT_SLOT_DISPLAY = SLOT_DISPLAY_TYPES.register("item_tag_outgredient", () -> new SlotDisplay.Type<>(ItemTagOutgredient.Display.CODEC, ItemTagOutgredient.Display.STREAM_CODEC));
+    public static final DeferredHolder<SlotDisplay.Type<?>, SlotDisplay.Type<FluidTagOutgredient.Display>> FLUID_TAG_OUTGREDIENT_SLOT_DISPLAY = SLOT_DISPLAY_TYPES.register("fluid_tag_outgredient", () -> new SlotDisplay.Type<>(FluidTagOutgredient.Display.CODEC, FluidTagOutgredient.Display.STREAM_CODEC));
 
     private static final DeferredRegister<IngredientType<?>> INGREDIENT_TYPES = DeferredRegister.create(NeoForgeRegistries.Keys.INGREDIENT_TYPES, MOD_ID);
 
@@ -383,6 +397,12 @@ public class NeoForgeMod {
     public static final DeferredHolder<FluidIngredientType<?>, FluidIngredientType<DifferenceFluidIngredient>> DIFFERENCE_FLUID_INGREDIENT_TYPE = FLUID_INGREDIENT_TYPES.register("difference", () -> new FluidIngredientType<>(DifferenceFluidIngredient.CODEC));
     public static final DeferredHolder<FluidIngredientType<?>, FluidIngredientType<IntersectionFluidIngredient>> INTERSECTION_FLUID_INGREDIENT_TYPE = FLUID_INGREDIENT_TYPES.register("intersection", () -> new FluidIngredientType<>(IntersectionFluidIngredient.CODEC));
     public static final DeferredHolder<FluidIngredientType<?>, FluidIngredientType<CustomDisplayFluidIngredient>> CUSTOM_DISPLAY_FLUID_INGREDIENT = FLUID_INGREDIENT_TYPES.register("custom_display", () -> new FluidIngredientType<>(CustomDisplayFluidIngredient.CODEC, CustomDisplayFluidIngredient.STREAM_CODEC));
+
+    private static final DeferredRegister<OutgredientType<? extends Outgredient<ItemStackTemplate>>> ITEM_OUTGREDIENT_TYPES = DeferredRegister.create(NeoForgeRegistries.Keys.ITEM_OUTGREDIENT_TYPES, MOD_ID);
+    public static final DeferredHolder<OutgredientType<? extends Outgredient<ItemStackTemplate>>, OutgredientType<ItemTagOutgredient>> ITEM_TAG_OUTGREDIENT = ITEM_OUTGREDIENT_TYPES.register("item_tag", () -> new OutgredientType<>(ItemTagOutgredient.CODEC, ItemTagOutgredient.STREAM_CODEC));
+
+    private static final DeferredRegister<OutgredientType<? extends Outgredient<FluidStackTemplate>>> FLUID_OUTGREDIENT_TYPES = DeferredRegister.create(NeoForgeRegistries.Keys.FLUID_OUTGREDIENT_TYPES, MOD_ID);
+    public static final DeferredHolder<OutgredientType<? extends Outgredient<FluidStackTemplate>>, OutgredientType<FluidTagOutgredient>> FLUID_TAG_OUTGREDIENT = FLUID_OUTGREDIENT_TYPES.register("fluid_tag", () -> new OutgredientType<>(FluidTagOutgredient.CODEC, FluidTagOutgredient.STREAM_CODEC));
 
     private static final DeferredRegister<MapCodec<? extends ICondition>> CONDITION_CODECS = DeferredRegister.create(NeoForgeRegistries.Keys.CONDITION_CODECS, MOD_ID);
     public static final DeferredHolder<MapCodec<? extends ICondition>, MapCodec<AndCondition>> AND_CONDITION = CONDITION_CODECS.register("and", () -> AndCondition.CODEC);
