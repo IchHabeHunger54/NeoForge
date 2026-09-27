@@ -1,0 +1,51 @@
+--- a/net/minecraft/world/item/crafting/ShapedRecipe.java
++++ b/net/minecraft/world/item/crafting/ShapedRecipe.java
+@@ -21,7 +_,7 @@
+                 Recipe.CommonInfo.MAP_CODEC.forGetter(o -> o.commonInfo),
+                 CraftingRecipe.CraftingBookInfo.MAP_CODEC.forGetter(o -> o.bookInfo),
+                 ShapedRecipePattern.MAP_CODEC.forGetter(o -> o.pattern),
+-                ItemStackTemplate.CODEC.fieldOf("result").forGetter(o -> o.result)
++                net.neoforged.neoforge.common.crafting.outgredient.OutgredientCodecs.ITEM_OUTGREDIENT_CODEC.fieldOf("result").forGetter(o -> o.result)
+             )
+             .apply(i, ShapedRecipe::new)
+     );
+@@ -32,15 +_,19 @@
+         o -> o.bookInfo,
+         ShapedRecipePattern.STREAM_CODEC,
+         o -> o.pattern,
+-        ItemStackTemplate.STREAM_CODEC,
++        net.neoforged.neoforge.common.crafting.outgredient.OutgredientCodecs.ITEM_OUTGREDIENT_STREAM_CODEC,
+         o -> o.result,
+         ShapedRecipe::new
+     );
+     public static final RecipeSerializer<ShapedRecipe> SERIALIZER = new RecipeSerializer<>(MAP_CODEC, STREAM_CODEC);
+     public final ShapedRecipePattern pattern;
+-    private final ItemStackTemplate result;
++    private final net.neoforged.neoforge.common.crafting.outgredient.Outgredient<ItemStackTemplate> result;
+ 
+     public ShapedRecipe(Recipe.CommonInfo commonInfo, CraftingRecipe.CraftingBookInfo bookInfo, ShapedRecipePattern pattern, ItemStackTemplate result) {
++        this(commonInfo, bookInfo, pattern, net.neoforged.neoforge.common.crafting.outgredient.Outgredient.of(result));
++    }
++
++    public ShapedRecipe(Recipe.CommonInfo commonInfo, CraftingRecipe.CraftingBookInfo bookInfo, ShapedRecipePattern pattern, net.neoforged.neoforge.common.crafting.outgredient.Outgredient<ItemStackTemplate> result) {
+         super(commonInfo, bookInfo);
+         this.pattern = pattern;
+         this.result = result;
+@@ -66,7 +_,7 @@
+     }
+ 
+     public ItemStack assemble(CraftingInput input) {
+-        return this.result.create();
++        return this.result.resolve().create();
+     }
+ 
+     public int getWidth() {
+@@ -84,7 +_,7 @@
+                 this.pattern.width(),
+                 this.pattern.height(),
+                 this.pattern.ingredients().stream().map(e -> e.map(Ingredient::display).orElse(SlotDisplay.Empty.INSTANCE)).toList(),
+-                new SlotDisplay.ItemStackSlotDisplay(this.result),
++                this.result.display(),
+                 new SlotDisplay.ItemSlotDisplay(Items.CRAFTING_TABLE)
+             )
+         );

@@ -13,8 +13,6 @@ import net.minecraft.world.item.Item;
 import net.minecraft.world.item.ItemStack;
 import net.minecraft.world.item.ItemStackTemplate;
 import net.minecraft.world.level.storage.loot.LootContext;
-import net.minecraft.world.level.storage.loot.entries.ExpandableContainerBase;
-import net.minecraft.world.level.storage.loot.entries.LootPoolEntry;
 import net.minecraft.world.level.storage.loot.entries.SingleEntryContainerBase;
 import net.minecraft.world.level.storage.loot.functions.LootItemFunction;
 import net.minecraft.world.level.storage.loot.predicates.LootItemCondition;
@@ -30,7 +28,7 @@ import java.util.function.Consumer;
 public class OutgredientLootEntry extends SingleEntryContainerBase {
     @SuppressWarnings("unchecked") // suppress Outgredient<? extends ItemStackTemplate> -> Outgredient<ItemStackTemplate> unchecked warning
     public static final MapCodec<OutgredientLootEntry> CODEC = RecordCodecBuilder.mapCodec(inst -> inst.group(
-            OutgredientCodecs.ITEM_STACK_OUTGREDIENT_CODEC.fieldOf("outgredient").forGetter(it -> (Outgredient<ItemStackTemplate>) it.outgredient)
+            OutgredientCodecs.ITEM_OUTGREDIENT_CODEC.fieldOf("outgredient").forGetter(it -> (Outgredient<ItemStackTemplate>) it.outgredient)
     ).and(uniformFields(inst)).apply(inst, OutgredientLootEntry::new));
     private final Outgredient<? extends ItemStackTemplate> outgredient;
 

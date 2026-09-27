@@ -21,7 +21,7 @@ public interface Outgredient<T> {
     /// 
     /// @param stack The [ItemStackTemplate] backing the outgredient.
     /// @return A new outgredient.
-    static Outgredient<ItemStackTemplate> ofItem(ItemStackTemplate stack) {
+    static Outgredient<ItemStackTemplate> of(ItemStackTemplate stack) {
         return new OutgredientWrapper<>(stack, new SlotDisplay.ItemStackSlotDisplay(stack));
     }
 
@@ -29,7 +29,7 @@ public interface Outgredient<T> {
     ///
     /// @param stack The [FluidStackTemplate] backing the outgredient.
     /// @return A new outgredient.
-    static Outgredient<FluidStackTemplate> ofFluid(FluidStackTemplate stack) {
+    static Outgredient<FluidStackTemplate> of(FluidStackTemplate stack) {
         return new OutgredientWrapper<>(stack, new FluidStackSlotDisplay(stack));
     }
 

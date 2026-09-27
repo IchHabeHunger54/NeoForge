@@ -1,5 +1,41 @@
 --- a/net/minecraft/data/recipes/SimpleCookingRecipeBuilder.java
 +++ b/net/minecraft/data/recipes/SimpleCookingRecipeBuilder.java
+@@ -18,13 +_,14 @@
+ public class SimpleCookingRecipeBuilder implements RecipeBuilder {
+     private final RecipeCategory craftingCategory;
+     private final CookingBookCategory cookingCategory;
+-    private final ItemStackTemplate result;
++    private final net.neoforged.neoforge.common.crafting.outgredient.Outgredient<ItemStackTemplate> result;
+     private final Ingredient ingredient;
+     private final float experience;
+     private final int cookingTime;
+     private final RecipeUnlockAdvancementBuilder advancementBuilder = new RecipeUnlockAdvancementBuilder();
+     private @Nullable String group;
+     private final AbstractCookingRecipe.Factory<?> factory;
++    private @Nullable ResourceKey<Recipe<?>> defaultId = null; // Neo: used in the non-ingredient constructor
+ 
+     private SimpleCookingRecipeBuilder(
+         RecipeCategory craftingCategory,
+@@ -35,6 +_,19 @@
+         int cookingTime,
+         AbstractCookingRecipe.Factory<?> factory
+     ) {
++        this(craftingCategory, cookingCategory, net.neoforged.neoforge.common.crafting.outgredient.Outgredient.of(result), ingredient, experience, cookingTime, factory);
++        this.defaultId = RecipeBuilder.getDefaultRecipeId(result);
++    }
++
++    private SimpleCookingRecipeBuilder(
++        RecipeCategory craftingCategory,
++        CookingBookCategory cookingCategory,
++        net.neoforged.neoforge.common.crafting.outgredient.Outgredient<ItemStackTemplate> result,
++        Ingredient ingredient,
++        float experience,
++        int cookingTime,
++        AbstractCookingRecipe.Factory<?> factory
++    ) {
+         this.craftingCategory = craftingCategory;
+         this.cookingCategory = cookingCategory;
+         this.result = result;
 @@ -92,6 +_,34 @@
          return new SimpleCookingRecipeBuilder(craftingCategory, CookingBookCategory.FOOD, result, ingredient, experience, cookingTime, SmokingRecipe::new);
      }
@@ -35,3 +71,12 @@
      public SimpleCookingRecipeBuilder unlockedBy(String name, Criterion<?> criterion) {
          this.advancementBuilder.unlockedBy(name, criterion);
          return this;
+@@ -104,7 +_,7 @@
+ 
+     @Override
+     public ResourceKey<Recipe<?>> defaultId() {
+-        return RecipeBuilder.getDefaultRecipeId(this.result);
++        return defaultId; // Neo: using `RecipeBuilder.getDefaultRecipeId(this.result);` is no longer feasible with outgredients in the mix
+     }
+ 
+     @Override

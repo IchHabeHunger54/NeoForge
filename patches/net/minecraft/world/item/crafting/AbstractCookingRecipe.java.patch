@@ -1,0 +1,42 @@
+--- a/net/minecraft/world/item/crafting/AbstractCookingRecipe.java
++++ b/net/minecraft/world/item/crafting/AbstractCookingRecipe.java
+@@ -26,6 +_,17 @@
+         float experience,
+         int cookingTime
+     ) {
++        this(commonInfo, bookInfo, ingredient, net.neoforged.neoforge.common.crafting.outgredient.Outgredient.of(result), experience, cookingTime);
++    }
++
++    public AbstractCookingRecipe(
++        Recipe.CommonInfo commonInfo,
++        AbstractCookingRecipe.CookingBookInfo bookInfo,
++        Ingredient ingredient,
++        net.neoforged.neoforge.common.crafting.outgredient.Outgredient<ItemStackTemplate> result,
++        float experience,
++        int cookingTime
++    ) {
+         super(commonInfo, ingredient, result);
+         this.bookInfo = bookInfo;
+         this.experience = experience;
+@@ -118,9 +_,20 @@
+             Recipe.CommonInfo commonInfo,
+             AbstractCookingRecipe.CookingBookInfo cbookInfotegory,
+             Ingredient ingredient,
++            net.neoforged.neoforge.common.crafting.outgredient.Outgredient<ItemStackTemplate> result,
++            float experience,
++            int cookingTime
++        );
++
++        default T create(
++            Recipe.CommonInfo commonInfo,
++            AbstractCookingRecipe.CookingBookInfo cbookInfotegory,
++            Ingredient ingredient,
+             ItemStackTemplate result,
+             float experience,
+             int cookingTime
+-        );
++        ) {
++            return create(commonInfo, cbookInfotegory, ingredient, net.neoforged.neoforge.common.crafting.outgredient.Outgredient.of(result), experience, cookingTime);
++        }
+     }
+ }

@@ -1,0 +1,33 @@
+--- a/net/minecraft/data/recipes/BrewingRecipeBuilder.java
++++ b/net/minecraft/data/recipes/BrewingRecipeBuilder.java
+@@ -22,9 +_,9 @@
+ public class BrewingRecipeBuilder implements RecipeBuilder {
+     private final PotionIngredient input;
+     private final PotionIngredient reagent;
+-    private final ItemStackTemplate output;
++    private final net.neoforged.neoforge.common.crafting.outgredient.Outgredient<ItemStackTemplate> output;
+ 
+-    private BrewingRecipeBuilder(PotionIngredient input, PotionIngredient reagent, ItemStackTemplate output) {
++    private BrewingRecipeBuilder(PotionIngredient input, PotionIngredient reagent, net.neoforged.neoforge.common.crafting.outgredient.Outgredient<ItemStackTemplate> output) {
+         this.input = input;
+         this.reagent = reagent;
+         this.output = output;
+@@ -42,13 +_,17 @@
+         PotionIngredient input = potionIngredient(container, inputPotion);
+         PotionIngredient reagent = PotionIngredient.of(reagentItem);
+         ItemStackTemplate output = potionOutput(container, outputPotion);
+-        return new BrewingRecipeBuilder(input, reagent, output);
++        return new BrewingRecipeBuilder(input, reagent, net.neoforged.neoforge.common.crafting.outgredient.Outgredient.of(output));
+     }
+ 
+     public static BrewingRecipeBuilder brewingContainerTransform(Item inputContainer, Holder<Potion> inputPotion, Item reagentItem, Item outputContainer) {
+         PotionIngredient input = potionIngredient(inputContainer, inputPotion);
+         PotionIngredient reagent = PotionIngredient.of(reagentItem);
+         ItemStackTemplate output = potionOutput(outputContainer, inputPotion);
++        return new BrewingRecipeBuilder(input, reagent, net.neoforged.neoforge.common.crafting.outgredient.Outgredient.of(output));
++    }
++
++    public static BrewingRecipeBuilder brewing(PotionIngredient input, PotionIngredient reagent, net.neoforged.neoforge.common.crafting.outgredient.Outgredient<ItemStackTemplate> output) {
+         return new BrewingRecipeBuilder(input, reagent, output);
+     }
+ 

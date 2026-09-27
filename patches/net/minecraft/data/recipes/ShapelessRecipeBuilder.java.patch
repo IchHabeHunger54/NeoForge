@@ -1,0 +1,38 @@
+--- a/net/minecraft/data/recipes/ShapelessRecipeBuilder.java
++++ b/net/minecraft/data/recipes/ShapelessRecipeBuilder.java
+@@ -14,17 +_,22 @@
+ import net.minecraft.world.level.ItemLike;
+ import org.jspecify.annotations.Nullable;
+ 
+-import net.neoforged.neoforge.common.extensions.IShapelessRecipeBuilderExtension;
+-
+-public class ShapelessRecipeBuilder implements RecipeBuilder, IShapelessRecipeBuilderExtension {
++public class ShapelessRecipeBuilder implements RecipeBuilder {
+     private final HolderGetter<Item> items;
+     private final RecipeCategory category;
+-    private final ItemStackTemplate result;
++    private final net.neoforged.neoforge.common.crafting.outgredient.Outgredient<ItemStackTemplate> result;
+     private final List<Ingredient> ingredients = new ArrayList<>();
+     private final RecipeUnlockAdvancementBuilder advancementBuilder = new RecipeUnlockAdvancementBuilder();
+     private @Nullable String group;
++    private @Nullable ResourceKey<Recipe<?>> defaultId = null; // Neo: used in the non-ingredient constructor
+ 
+     private ShapelessRecipeBuilder(HolderGetter<Item> items, RecipeCategory category, ItemStackTemplate result) {
++        this(items, category, net.neoforged.neoforge.common.crafting.outgredient.Outgredient.of(result));
++        this.defaultId = RecipeBuilder.getDefaultRecipeId(result);
++    }
++
++    @org.jetbrains.annotations.ApiStatus.Internal
++    public ShapelessRecipeBuilder(HolderGetter<Item> items, RecipeCategory category, net.neoforged.neoforge.common.crafting.outgredient.Outgredient<ItemStackTemplate> result) {
+         this.items = items;
+         this.category = category;
+         this.result = result;
+@@ -82,7 +_,7 @@
+ 
+     @Override
+     public ResourceKey<Recipe<?>> defaultId() {
+-        return RecipeBuilder.getDefaultRecipeId(this.result);
++        return defaultId; // Neo: using `RecipeBuilder.getDefaultRecipeId(this.result);` is no longer feasible with outgredients in the mix
+     }
+ 
+     @Override

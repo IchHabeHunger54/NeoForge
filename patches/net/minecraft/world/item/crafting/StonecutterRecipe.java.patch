@@ -1,0 +1,13 @@
+--- a/net/minecraft/world/item/crafting/StonecutterRecipe.java
++++ b/net/minecraft/world/item/crafting/StonecutterRecipe.java
+@@ -19,6 +_,10 @@
+         super(commonInfo, ingredient, result);
+     }
+ 
++    public StonecutterRecipe(Recipe.CommonInfo commonInfo, Ingredient ingredient, net.neoforged.neoforge.common.crafting.outgredient.Outgredient<ItemStackTemplate> result) {
++        super(commonInfo, ingredient, result);
++    }
++
+     @Override
+     public RecipeType<StonecutterRecipe> getType() {
+         return RecipeType.STONECUTTING;

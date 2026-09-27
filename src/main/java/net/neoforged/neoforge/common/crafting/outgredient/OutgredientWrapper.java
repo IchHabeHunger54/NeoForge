@@ -18,7 +18,7 @@ import java.util.function.Function;
 /// As it represents "vanilla" values, it receives special treatment during serialization.
 /// See [OutgredientCodecs#streamCodec(StreamCodec, StreamCodec, Function)] for how that works.
 ///
-/// Note: For construction, prefer using [Outgredient#ofItem(ItemStackTemplate)] and [Outgredient#ofFluid(FluidStackTemplate)] where possible.
+/// Note: For construction, prefer using [Outgredient#of(ItemStackTemplate)] and [Outgredient#of(FluidStackTemplate)] where possible.
 ///
 /// @param outgredient The `T` to wrap.
 /// @param display     The [SlotDisplay] to use.

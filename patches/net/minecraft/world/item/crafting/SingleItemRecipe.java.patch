@@ -1,0 +1,48 @@
+--- a/net/minecraft/world/item/crafting/SingleItemRecipe.java
++++ b/net/minecraft/world/item/crafting/SingleItemRecipe.java
+@@ -12,10 +_,14 @@
+ public abstract class SingleItemRecipe implements Recipe<SingleRecipeInput> {
+     protected final Recipe.CommonInfo commonInfo;
+     private final Ingredient input;
+-    private final ItemStackTemplate result;
++    private final net.neoforged.neoforge.common.crafting.outgredient.Outgredient<ItemStackTemplate> result;
+     private @Nullable PlacementInfo placementInfo;
+ 
+     public SingleItemRecipe(Recipe.CommonInfo commonInfo, Ingredient input, ItemStackTemplate result) {
++        this(commonInfo, input, net.neoforged.neoforge.common.crafting.outgredient.Outgredient.of(result));
++    }
++
++    public SingleItemRecipe(Recipe.CommonInfo commonInfo, Ingredient input, net.neoforged.neoforge.common.crafting.outgredient.Outgredient<ItemStackTemplate> result) {
+         this.commonInfo = commonInfo;
+         this.input = input;
+         this.result = result;
+@@ -41,7 +_,7 @@
+     }
+ 
+     protected ItemStackTemplate result() {
+-        return this.result;
++        return this.result.resolve();
+     }
+ 
+     @Override
+@@ -54,7 +_,7 @@
+     }
+ 
+     public ItemStack assemble(SingleRecipeInput input) {
+-        return this.result.create();
++        return this.result.resolve().create();
+     }
+ 
+     public static <T extends SingleItemRecipe> MapCodec<T> simpleMapCodec(SingleItemRecipe.Factory<T> factory) {
+@@ -82,6 +_,10 @@
+ 
+     @FunctionalInterface
+     public interface Factory<T extends SingleItemRecipe> {
+-        T create(Recipe.CommonInfo commonInfo, Ingredient ingredient, ItemStackTemplate result);
++        T create(Recipe.CommonInfo commonInfo, Ingredient ingredient, net.neoforged.neoforge.common.crafting.outgredient.Outgredient<ItemStackTemplate> result);
++
++        default T create(Recipe.CommonInfo commonInfo, Ingredient ingredient, ItemStackTemplate result) {
++            return create(commonInfo, ingredient, net.neoforged.neoforge.common.crafting.outgredient.Outgredient.of(result));
++        }
+     }
+ }

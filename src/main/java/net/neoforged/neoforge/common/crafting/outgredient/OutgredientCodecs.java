@@ -18,16 +18,16 @@ import java.util.function.Function;
 
 /// Utility class that contains various codecs related to outgredients.
 public final class OutgredientCodecs {
-    public static final Codec<Outgredient<ItemStackTemplate>> ITEM_STACK_OUTGREDIENT_CODEC = codec(ItemStackTemplate.CODEC, NeoForgeRegistries.ITEM_OUTGREDIENT_TYPES.byNameCodec(), Outgredient::ofItem);
-    public static final Codec<Outgredient<FluidStackTemplate>> FLUID_STACK_OUTGREDIENT_CODEC = codec(FluidStackTemplate.CODEC, NeoForgeRegistries.FLUID_OUTGREDIENT_TYPES.byNameCodec(), Outgredient::ofFluid);
-    public static final StreamCodec<RegistryFriendlyByteBuf, Outgredient<ItemStackTemplate>> ITEM_STACK_OUTGREDIENT_STREAM_CODEC = streamCodec(
+    public static final Codec<Outgredient<ItemStackTemplate>> ITEM_OUTGREDIENT_CODEC = codec(ItemStackTemplate.CODEC, NeoForgeRegistries.ITEM_OUTGREDIENT_TYPES.byNameCodec(), Outgredient::of);
+    public static final Codec<Outgredient<FluidStackTemplate>> FLUID_OUTGREDIENT_CODEC = codec(FluidStackTemplate.CODEC, NeoForgeRegistries.FLUID_OUTGREDIENT_TYPES.byNameCodec(), Outgredient::of);
+    public static final StreamCodec<RegistryFriendlyByteBuf, Outgredient<ItemStackTemplate>> ITEM_OUTGREDIENT_STREAM_CODEC = streamCodec(
         ItemStackTemplate.STREAM_CODEC,
         ByteBufCodecs.registry(NeoForgeRegistries.Keys.ITEM_OUTGREDIENT_TYPES).dispatch(Outgredient::type, OutgredientType::streamCodec),
-        Outgredient::ofItem);
-    public static final StreamCodec<RegistryFriendlyByteBuf, Outgredient<FluidStackTemplate>> FLUID_STACK_OUTGREDIENT_STREAM_CODEC = streamCodec(
+        Outgredient::of);
+    public static final StreamCodec<RegistryFriendlyByteBuf, Outgredient<FluidStackTemplate>> FLUID_OUTGREDIENT_STREAM_CODEC = streamCodec(
         FluidStackTemplate.STREAM_CODEC,
         ByteBufCodecs.registry(NeoForgeRegistries.Keys.FLUID_OUTGREDIENT_TYPES).dispatch(Outgredient::type, OutgredientType::streamCodec),
-        Outgredient::ofFluid);
+        Outgredient::of);
     private static final int CUSTOM_OUTGREDIENT_MARKER = -1000;
 
     private OutgredientCodecs() {}

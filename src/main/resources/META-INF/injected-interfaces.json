@@ -338,5 +338,11 @@
   ],
   "net/minecraft/server/jsonrpc/internalapi/MinecraftApi": [
     "net/neoforged/neoforge/server/jsonrpc/IMinecraftApiExtension"
+  ],
+  "net/minecraft/data/recipes/ShapedRecipeBuilder": [
+    "net/neoforged/neoforge/common/extensions/IShapedRecipeBuilderExtension"
+  ],
+  "net/minecraft/data/recipes/ShapelessRecipeBuilder": [
+    "net/neoforged/neoforge/common/extensions/IShapelessRecipeBuilderExtension"
   ]
 }

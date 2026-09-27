@@ -1,0 +1,57 @@
+--- a/net/minecraft/world/item/crafting/SmithingTransformRecipe.java
++++ b/net/minecraft/world/item/crafting/SmithingTransformRecipe.java
+@@ -20,7 +_,7 @@
+                 Ingredient.CODEC.optionalFieldOf("template").forGetter(o -> o.template),
+                 Ingredient.CODEC.fieldOf("base").forGetter(o -> o.base),
+                 Ingredient.CODEC.optionalFieldOf("addition").forGetter(o -> o.addition),
+-                ItemStackTemplate.CODEC.fieldOf("result").forGetter(o -> o.result)
++                net.neoforged.neoforge.common.crafting.outgredient.OutgredientCodecs.ITEM_OUTGREDIENT_CODEC.fieldOf("result").forGetter(o -> o.result)
+             )
+             .apply(i, SmithingTransformRecipe::new)
+     );
+@@ -33,7 +_,7 @@
+         o -> o.base,
+         Ingredient.OPTIONAL_CONTENTS_STREAM_CODEC,
+         o -> o.addition,
+-        ItemStackTemplate.STREAM_CODEC,
++        net.neoforged.neoforge.common.crafting.outgredient.OutgredientCodecs.ITEM_OUTGREDIENT_STREAM_CODEC,
+         o -> o.result,
+         SmithingTransformRecipe::new
+     );
+@@ -41,11 +_,17 @@
+     private final Optional<Ingredient> template;
+     private final Ingredient base;
+     private final Optional<Ingredient> addition;
+-    private final ItemStackTemplate result;
++    private final net.neoforged.neoforge.common.crafting.outgredient.Outgredient<ItemStackTemplate> result;
+ 
+     public SmithingTransformRecipe(
+         Recipe.CommonInfo commonInfo, Optional<Ingredient> template, Ingredient base, Optional<Ingredient> addition, ItemStackTemplate result
+     ) {
++        this(commonInfo, template, base, addition, net.neoforged.neoforge.common.crafting.outgredient.Outgredient.of(result));
++    }
++
++    public SmithingTransformRecipe(
++        Recipe.CommonInfo commonInfo, Optional<Ingredient> template, Ingredient base, Optional<Ingredient> addition, net.neoforged.neoforge.common.crafting.outgredient.Outgredient<ItemStackTemplate> result
++    ) {
+         super(commonInfo);
+         this.template = template;
+         this.base = base;
+@@ -54,7 +_,7 @@
+     }
+ 
+     public ItemStack assemble(SmithingRecipeInput input) {
+-        return TransmuteRecipe.createWithOriginalComponents(this.result, input.base());
++        return TransmuteRecipe.createWithOriginalComponents(this.result.resolve(), input.base());
+     }
+ 
+     @Override
+@@ -89,7 +_,7 @@
+                 Ingredient.optionalIngredientToDisplay(this.template),
+                 this.base.display(),
+                 Ingredient.optionalIngredientToDisplay(this.addition),
+-                new SlotDisplay.ItemStackSlotDisplay(this.result),
++                this.result.display(),
+                 new SlotDisplay.ItemSlotDisplay(Items.SMITHING_TABLE)
+             )
+         );

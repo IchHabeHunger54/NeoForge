@@ -1,14 +1,49 @@
 --- a/net/minecraft/data/recipes/SingleItemRecipeBuilder.java
 +++ b/net/minecraft/data/recipes/SingleItemRecipeBuilder.java
-@@ -32,6 +_,11 @@
+@@ -12,12 +_,18 @@
+ 
+ public class SingleItemRecipeBuilder implements RecipeBuilder {
+     private final RecipeCategory category;
+-    private final ItemStackTemplate result;
++    private final net.neoforged.neoforge.common.crafting.outgredient.Outgredient<ItemStackTemplate> result;
+     private final Ingredient ingredient;
+     private final RecipeUnlockAdvancementBuilder advancementBuilder = new RecipeUnlockAdvancementBuilder();
+     private final SingleItemRecipe.Factory<?> factory;
+-
+-    private SingleItemRecipeBuilder(RecipeCategory category, SingleItemRecipe.Factory<?> factory, Ingredient ingredient, ItemStackTemplate result) {
++    private @Nullable ResourceKey<Recipe<?>> defaultId = null; // Neo: used in the non-ingredient constructor
++
++    public SingleItemRecipeBuilder(RecipeCategory category, SingleItemRecipe.Factory<?> factory, Ingredient ingredient, ItemStackTemplate result) {
++        this(category, factory, ingredient, net.neoforged.neoforge.common.crafting.outgredient.Outgredient.of(result));
++        this.defaultId = RecipeBuilder.getDefaultRecipeId(result);
++    }
++
++    public SingleItemRecipeBuilder(RecipeCategory category, SingleItemRecipe.Factory<?> factory, Ingredient ingredient, net.neoforged.neoforge.common.crafting.outgredient.Outgredient<ItemStackTemplate> result) {
+         this.category = category;
+         this.result = result;
+         this.ingredient = ingredient;
+@@ -32,6 +_,15 @@
          return new SingleItemRecipeBuilder(category, StonecutterRecipe::new, ingredient, result, count);
      }
  
-+    // Neo: All passing in ItemStackTemplate for results with components
++    // Neo: Allow passing in ItemStackTemplate for results with components
 +    public static SingleItemRecipeBuilder stonecutting(Ingredient ingredient, RecipeCategory category, ItemStackTemplate template) {
 +        return new SingleItemRecipeBuilder(category, StonecutterRecipe::new, ingredient, template);
++    }
++
++    public static SingleItemRecipeBuilder stonecutting(Ingredient ingredient, RecipeCategory category, net.neoforged.neoforge.common.crafting.outgredient.Outgredient<ItemStackTemplate> result) {
++        return new SingleItemRecipeBuilder(category, StonecutterRecipe::new, ingredient, result);
 +    }
 +
      public SingleItemRecipeBuilder unlockedBy(String name, Criterion<?> criterion) {
          this.advancementBuilder.unlockedBy(name, criterion);
          return this;
+@@ -43,7 +_,7 @@
+ 
+     @Override
+     public ResourceKey<Recipe<?>> defaultId() {
+-        return RecipeBuilder.getDefaultRecipeId(this.result);
++        return defaultId; // Neo: using `RecipeBuilder.getDefaultRecipeId(this.result);` is no longer feasible with outgredients in the mix
+     }
+ 
+     @Override
