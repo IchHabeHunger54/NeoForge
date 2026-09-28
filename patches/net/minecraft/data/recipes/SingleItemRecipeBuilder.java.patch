@@ -11,7 +11,7 @@
      private final SingleItemRecipe.Factory<?> factory;
 -
 -    private SingleItemRecipeBuilder(RecipeCategory category, SingleItemRecipe.Factory<?> factory, Ingredient ingredient, ItemStackTemplate result) {
-+    private @Nullable ResourceKey<Recipe<?>> defaultId = null; // Neo: used in the non-ingredient constructor
++    private @Nullable ResourceKey<Recipe<?>> defaultId = null; // Neo: used in the non-outgredient constructor
 +
 +    public SingleItemRecipeBuilder(RecipeCategory category, SingleItemRecipe.Factory<?> factory, Ingredient ingredient, ItemStackTemplate result) {
 +        this(category, factory, ingredient, net.neoforged.neoforge.common.crafting.outgredient.Outgredient.of(result));

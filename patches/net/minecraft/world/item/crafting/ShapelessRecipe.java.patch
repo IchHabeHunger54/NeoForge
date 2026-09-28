@@ -53,13 +53,11 @@
          } else {
              return input.size() == 1 && this.ingredients.size() == 1
                  ? this.ingredients.getFirst().test(input.getItem(0))
-@@ -65,8 +_,15 @@
+@@ -65,8 +_,13 @@
          }
      }
  
-+    /**
-+     * {@return the result of this shapeless recipe or null if it is not static and needs ot be obtained by assembling it}
-+     */
++    /// {@return the result of this shapeless recipe or null if it is not static and needs to be obtained by assembling it}
 +    public @org.jspecify.annotations.Nullable ItemStackTemplate result() {
 +        return result.resolve();
 +    }

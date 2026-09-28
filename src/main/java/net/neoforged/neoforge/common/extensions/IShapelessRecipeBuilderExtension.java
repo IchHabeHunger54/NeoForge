@@ -14,14 +14,14 @@ import net.neoforged.neoforge.common.crafting.outgredient.Outgredient;
 public interface IShapelessRecipeBuilderExtension {
     /// @param items    The [HolderGetter] provided by the recipe context.
     /// @param category The [RecipeCategory] to use.
-    /// @param result   The result [Outgredient].
+    /// @param result   The result [Outgredient] to use.
     static ShapelessRecipeBuilder shapeless(HolderGetter<Item> items, RecipeCategory category, Outgredient<ItemStackTemplate> result) {
         return new ShapelessRecipeBuilder(items, category, result);
     }
 
     /// @param items      The [HolderGetter] provided by the recipe context.
     /// @param category   The [RecipeCategory] to use.
-    /// @param tag        The [TagKey] to use to resolve the outgredient.
+    /// @param tag        The [TagKey] to use to resolve the result [Outgredient].
     /// @param fallback   The fallback to use if resolving the tag did not yield a result.
     /// @param count      The count to use. Corresponds to [ItemStackTemplate#count()].
     /// @param components The data components to use. Corresponds to [ItemStackTemplate#components()].
@@ -31,7 +31,7 @@ public interface IShapelessRecipeBuilderExtension {
 
     /// @param items      The [HolderGetter] provided by the recipe context.
     /// @param category   The [RecipeCategory] to use.
-    /// @param tag        The [TagKey] to use to resolve the outgredient.
+    /// @param tag        The [TagKey] to use to resolve the result [Outgredient].
     /// @param count      The count to use. Corresponds to [ItemStackTemplate#count()].
     /// @param components The data components to use. Corresponds to [ItemStackTemplate#components()].
     static ShapelessRecipeBuilder shapeless(HolderGetter<Item> items, RecipeCategory category, TagKey<Item> tag, int count, DataComponentPatch components) {
@@ -40,7 +40,7 @@ public interface IShapelessRecipeBuilderExtension {
 
     /// @param items    The [HolderGetter] provided by the recipe context.
     /// @param category The [RecipeCategory] to use.
-    /// @param tag      The [TagKey] to use to resolve the outgredient.
+    /// @param tag      The [TagKey] to use to resolve the result [Outgredient].
     /// @param fallback The fallback to use if resolving the tag did not yield a result.
     /// @param count    The count to use. Corresponds to [ItemStackTemplate#count()].
     static ShapelessRecipeBuilder shapeless(HolderGetter<Item> items, RecipeCategory category, TagKey<Item> tag, Holder<Item> fallback, int count) {
@@ -49,7 +49,7 @@ public interface IShapelessRecipeBuilderExtension {
 
     /// @param items    The [HolderGetter] provided by the recipe context.
     /// @param category The [RecipeCategory] to use.
-    /// @param tag      The [TagKey] to use to resolve the outgredient.
+    /// @param tag      The [TagKey] to use to resolve the result [Outgredient].
     /// @param count    The count to use. Corresponds to [ItemStackTemplate#count()].
     static ShapelessRecipeBuilder shapeless(HolderGetter<Item> items, RecipeCategory category, TagKey<Item> tag, int count) {
         return shapeless(items, category, ItemTagOutgredient.of(tag, count));
@@ -57,7 +57,7 @@ public interface IShapelessRecipeBuilderExtension {
 
     /// @param items    The [HolderGetter] provided by the recipe context.
     /// @param category The [RecipeCategory] to use.
-    /// @param tag      The [TagKey] to use to resolve the outgredient.
+    /// @param tag      The [TagKey] to use to resolve the result [Outgredient].
     /// @param fallback The fallback to use if resolving the tag did not yield a result.
     static ShapelessRecipeBuilder shapeless(HolderGetter<Item> items, RecipeCategory category, TagKey<Item> tag, Holder<Item> fallback) {
         return shapeless(items, category, ItemTagOutgredient.of(tag, fallback));
@@ -65,7 +65,7 @@ public interface IShapelessRecipeBuilderExtension {
 
     /// @param items    The [HolderGetter] provided by the recipe context.
     /// @param category The [RecipeCategory] to use.
-    /// @param tag      The [TagKey] to use to resolve the outgredient.
+    /// @param tag      The [TagKey] to use to resolve the result [Outgredient].
     static ShapelessRecipeBuilder shapeless(HolderGetter<Item> items, RecipeCategory category, TagKey<Item> tag) {
         return shapeless(items, category, ItemTagOutgredient.of(tag));
     }

@@ -344,5 +344,8 @@
   ],
   "net/minecraft/data/recipes/ShapelessRecipeBuilder": [
     "net/neoforged/neoforge/common/extensions/IShapelessRecipeBuilderExtension"
+  ],
+  "net/minecraft/data/recipes/SimpleCookingRecipeBuilder": [
+    "net/neoforged/neoforge/common/extensions/ISimpleCookingRecipeBuilderExtension"
   ]
 }

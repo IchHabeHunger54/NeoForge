@@ -14,14 +14,14 @@ import net.neoforged.neoforge.common.crafting.outgredient.Outgredient;
 public interface IShapedRecipeBuilderExtension {
     /// @param items    The [HolderGetter] provided by the recipe context.
     /// @param category The [RecipeCategory] to use.
-    /// @param result   The result [Outgredient].
+    /// @param result   The result [Outgredient] to use.
     static ShapedRecipeBuilder shaped(HolderGetter<Item> items, RecipeCategory category, Outgredient<ItemStackTemplate> result) {
         return new ShapedRecipeBuilder(items, category, result);
     }
 
     /// @param items      The [HolderGetter] provided by the recipe context.
     /// @param category   The [RecipeCategory] to use.
-    /// @param tag        The [TagKey] to use to resolve the outgredient.
+    /// @param tag        The [TagKey] to use to resolve the result [Outgredient].
     /// @param fallback   The fallback to use if resolving the tag did not yield a result.
     /// @param count      The count to use. Corresponds to [ItemStackTemplate#count()].
     /// @param components The data components to use. Corresponds to [ItemStackTemplate#components()].
@@ -31,7 +31,7 @@ public interface IShapedRecipeBuilderExtension {
 
     /// @param items      The [HolderGetter] provided by the recipe context.
     /// @param category   The [RecipeCategory] to use.
-    /// @param tag        The [TagKey] to use to resolve the outgredient.
+    /// @param tag        The [TagKey] to use to resolve the result [Outgredient].
     /// @param count      The count to use. Corresponds to [ItemStackTemplate#count()].
     /// @param components The data components to use. Corresponds to [ItemStackTemplate#components()].
     static ShapedRecipeBuilder shaped(HolderGetter<Item> items, RecipeCategory category, TagKey<Item> tag, int count, DataComponentPatch components) {
@@ -40,7 +40,7 @@ public interface IShapedRecipeBuilderExtension {
 
     /// @param items    The [HolderGetter] provided by the recipe context.
     /// @param category The [RecipeCategory] to use.
-    /// @param tag      The [TagKey] to use to resolve the outgredient.
+    /// @param tag      The [TagKey] to use to resolve the result [Outgredient].
     /// @param fallback The fallback to use if resolving the tag did not yield a result.
     /// @param count    The count to use. Corresponds to [ItemStackTemplate#count()].
     static ShapedRecipeBuilder shaped(HolderGetter<Item> items, RecipeCategory category, TagKey<Item> tag, Holder<Item> fallback, int count) {
@@ -49,7 +49,7 @@ public interface IShapedRecipeBuilderExtension {
 
     /// @param items    The [HolderGetter] provided by the recipe context.
     /// @param category The [RecipeCategory] to use.
-    /// @param tag      The [TagKey] to use to resolve the outgredient.
+    /// @param tag      The [TagKey] to use to resolve the result [Outgredient].
     /// @param count    The count to use. Corresponds to [ItemStackTemplate#count()].
     static ShapedRecipeBuilder shaped(HolderGetter<Item> items, RecipeCategory category, TagKey<Item> tag, int count) {
         return shaped(items, category, ItemTagOutgredient.of(tag, count));
@@ -57,7 +57,7 @@ public interface IShapedRecipeBuilderExtension {
 
     /// @param items    The [HolderGetter] provided by the recipe context.
     /// @param category The [RecipeCategory] to use.
-    /// @param tag      The [TagKey] to use to resolve the outgredient.
+    /// @param tag      The [TagKey] to use to resolve the result [Outgredient].
     /// @param fallback The fallback to use if resolving the tag did not yield a result.
     static ShapedRecipeBuilder shaped(HolderGetter<Item> items, RecipeCategory category, TagKey<Item> tag, Holder<Item> fallback) {
         return shaped(items, category, ItemTagOutgredient.of(tag, fallback));
@@ -65,7 +65,7 @@ public interface IShapedRecipeBuilderExtension {
 
     /// @param items    The [HolderGetter] provided by the recipe context.
     /// @param category The [RecipeCategory] to use.
-    /// @param tag      The [TagKey] to use to resolve the outgredient.
+    /// @param tag      The [TagKey] to use to resolve the result [Outgredient].
     static ShapedRecipeBuilder shaped(HolderGetter<Item> items, RecipeCategory category, TagKey<Item> tag) {
         return shaped(items, category, ItemTagOutgredient.of(tag));
     }

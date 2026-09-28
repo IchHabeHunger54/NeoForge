@@ -15,7 +15,7 @@
      private final List<Ingredient> ingredients = new ArrayList<>();
      private final RecipeUnlockAdvancementBuilder advancementBuilder = new RecipeUnlockAdvancementBuilder();
      private @Nullable String group;
-+    private @Nullable ResourceKey<Recipe<?>> defaultId = null; // Neo: used in the non-ingredient constructor
++    private @Nullable ResourceKey<Recipe<?>> defaultId = null; // Neo: used in the non-outgredient constructor
  
      private ShapelessRecipeBuilder(HolderGetter<Item> items, RecipeCategory category, ItemStackTemplate result) {
 +        this(items, category, net.neoforged.neoforge.common.crafting.outgredient.Outgredient.of(result));

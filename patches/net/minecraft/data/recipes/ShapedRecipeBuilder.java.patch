@@ -17,7 +17,7 @@
      private final RecipeUnlockAdvancementBuilder advancementBuilder = new RecipeUnlockAdvancementBuilder();
      private @Nullable String group;
      private boolean showNotification = true;
-+    private @Nullable ResourceKey<Recipe<?>> defaultId = null; // Neo: used in the non-ingredient constructor
++    private @Nullable ResourceKey<Recipe<?>> defaultId = null; // Neo: used in the non-outgredient constructor
  
      private ShapedRecipeBuilder(HolderGetter<Item> items, RecipeCategory category, ItemStackTemplate result) {
 +        this(items, category, net.neoforged.neoforge.common.crafting.outgredient.Outgredient.of(result));

@@ -1,7 +1,13 @@
 --- a/net/minecraft/data/recipes/SimpleCookingRecipeBuilder.java
 +++ b/net/minecraft/data/recipes/SimpleCookingRecipeBuilder.java
-@@ -18,13 +_,14 @@
- public class SimpleCookingRecipeBuilder implements RecipeBuilder {
+@@ -15,18 +_,17 @@
+ import net.minecraft.world.level.ItemLike;
+ import org.jspecify.annotations.Nullable;
+ 
+-import net.neoforged.neoforge.common.extensions.ISimpleCookingRecipeBuilderExtension;
+-
+-public class SimpleCookingRecipeBuilder implements RecipeBuilder, ISimpleCookingRecipeBuilderExtension {
++public class SimpleCookingRecipeBuilder implements RecipeBuilder {
      private final RecipeCategory craftingCategory;
      private final CookingBookCategory cookingCategory;
 -    private final ItemStackTemplate result;
@@ -12,11 +18,11 @@
      private final RecipeUnlockAdvancementBuilder advancementBuilder = new RecipeUnlockAdvancementBuilder();
      private @Nullable String group;
      private final AbstractCookingRecipe.Factory<?> factory;
-+    private @Nullable ResourceKey<Recipe<?>> defaultId = null; // Neo: used in the non-ingredient constructor
++    private @Nullable ResourceKey<Recipe<?>> defaultId = null; // Neo: used in the non-outgredient constructor
  
      private SimpleCookingRecipeBuilder(
          RecipeCategory craftingCategory,
-@@ -35,6 +_,19 @@
+@@ -37,6 +_,19 @@
          int cookingTime,
          AbstractCookingRecipe.Factory<?> factory
      ) {
@@ -36,7 +42,7 @@
          this.craftingCategory = craftingCategory;
          this.cookingCategory = cookingCategory;
          this.result = result;
-@@ -92,6 +_,34 @@
+@@ -94,6 +_,45 @@
          return new SimpleCookingRecipeBuilder(craftingCategory, CookingBookCategory.FOOD, result, ingredient, experience, cookingTime, SmokingRecipe::new);
      }
  
@@ -44,14 +50,13 @@
 +            Ingredient ingredient,
 +            RecipeCategory craftingCategory,
 +            CookingBookCategory cookingCategory,
-+            net.minecraft.world.item.ItemStack result,
++            ItemStackTemplate result,
 +            float experience,
 +            int cookingTime,
 +            AbstractCookingRecipe.Factory<T> factory
 +    ) {
-+        return new SimpleCookingRecipeBuilder(craftingCategory, cookingCategory, ItemStackTemplate.fromNonEmptyStack(result), ingredient, experience, cookingTime, factory);
++        return new SimpleCookingRecipeBuilder(craftingCategory, cookingCategory, result, ingredient, experience, cookingTime, factory);
 +    }
-+
 +    public static SimpleCookingRecipeBuilder campfireCooking(Ingredient ingredient, RecipeCategory craftingCategory, ItemStackTemplate result, float experience, int cookingTime) {
 +        return new SimpleCookingRecipeBuilder(craftingCategory, CookingBookCategory.FOOD, result, ingredient, experience, cookingTime, CampfireCookingRecipe::new);
 +    }
@@ -68,10 +73,22 @@
 +        return new SimpleCookingRecipeBuilder(craftingCategory, CookingBookCategory.FOOD, result, ingredient, experience, cookingTime, SmokingRecipe::new);
 +    }
 +
++    public static <T extends AbstractCookingRecipe> SimpleCookingRecipeBuilder generic(
++        Ingredient ingredient,
++        RecipeCategory craftingCategory,
++        CookingBookCategory cookingCategory,
++        net.neoforged.neoforge.common.crafting.outgredient.Outgredient<ItemStackTemplate> result,
++        float experience,
++        int cookingTime,
++        AbstractCookingRecipe.Factory<T> factory
++    ) {
++        return new SimpleCookingRecipeBuilder(craftingCategory, cookingCategory, result, ingredient, experience, cookingTime, factory);
++    }
++
      public SimpleCookingRecipeBuilder unlockedBy(String name, Criterion<?> criterion) {
          this.advancementBuilder.unlockedBy(name, criterion);
          return this;
-@@ -104,7 +_,7 @@
+@@ -106,7 +_,7 @@
  
      @Override
      public ResourceKey<Recipe<?>> defaultId() {
