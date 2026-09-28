@@ -5,10 +5,13 @@
 
 package net.neoforged.neoforge.common.config;
 
+import net.minecraft.resources.Identifier;
 import net.neoforged.fml.loading.FMLEnvironment;
 import net.neoforged.neoforge.common.ModConfigSpec;
 import org.apache.commons.lang3.tuple.Pair;
 import org.jetbrains.annotations.ApiStatus;
+
+import java.util.List;
 
 /**
  * General configuration that needs to be synchronized to the server and/or is desirable to be configurable per world
@@ -27,6 +30,8 @@ public final class NeoForgeServerConfig {
     public final ModConfigSpec.ConfigValue<String> permissionHandler;
 
     public final ModConfigSpec.BooleanValue advertiseDedicatedServerToLan;
+
+    public final ModConfigSpec.ConfigValue<List<? extends String>> tagPriorityModIds;
 
     private NeoForgeServerConfig(ModConfigSpec.Builder builder) {
         removeErroringBlockEntities = builder
@@ -56,6 +61,11 @@ public final class NeoForgeServerConfig {
                 .comment("Set this to true to enable advertising the dedicated server to local LAN clients so that it shows up in the Multiplayer screen automatically.")
                 .translation("neoforge.configgui.advertiseDedicatedServerToLan")
                 .define("advertiseDedicatedServerToLan", !FMLEnvironment.isProduction());
+
+        tagPriorityModIds = builder
+                .comment("Specify a list of mod ids here that will be prioritized by mod recipe's results. Values that are earlier in the list will be prioritized first. Note: Datapacks may override this.")
+                .translation("neoforge.configgui.tagPriorityModIds")
+                .defineList("tagPriorityModIds", List::of, String::new, obj -> obj instanceof String s && Identifier.isValidNamespace(s));
     }
 
     static {

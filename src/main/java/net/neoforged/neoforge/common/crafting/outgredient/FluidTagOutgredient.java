@@ -75,7 +75,7 @@ public record FluidTagOutgredient(TagKey<Fluid> tag, Optional<Holder<Fluid>> fal
 
     @Override
     public FluidStackTemplate resolve() {
-        return new FluidStackTemplate(fallback.map(Holder::value).orElse(Fluids.EMPTY), amount, components); //TODO
+        return new FluidStackTemplate(TagPriorityManager.resolve(Registries.FLUID, tag).or(() -> fallback.map(Holder::value)).orElse(Fluids.EMPTY), amount, components);
     }
 
     @Override

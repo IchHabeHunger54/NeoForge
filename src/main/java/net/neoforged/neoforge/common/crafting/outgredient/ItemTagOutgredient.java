@@ -86,7 +86,7 @@ public record ItemTagOutgredient(TagKey<Item> tag, Optional<Holder<Item>> fallba
 
     @Override
     public ItemStackTemplate resolve() {
-        return new ItemStackTemplate(fallback.map(Holder::value).orElse(Items.AIR), count, components); //TODO
+        return new ItemStackTemplate(TagPriorityManager.resolve(Registries.ITEM, tag).or(() -> fallback.map(Holder::value)).orElse(Items.AIR), count, components);
     }
 
     @Override
