@@ -7,6 +7,7 @@ package net.neoforged.neoforge.resource;
 
 import net.minecraft.resources.Identifier;
 import net.neoforged.neoforge.common.NeoForgeMod;
+import net.neoforged.neoforge.common.crafting.outgredient.TagPriorityManager;
 import net.neoforged.neoforge.common.loot.LootModifierManager;
 import net.neoforged.neoforge.registries.DataMapLoader;
 
@@ -23,6 +24,8 @@ public class NeoForgeReloadListeners {
     public static final ListenerKey<LootModifierManager> LOOT_MODIFIERS_KEY = ListenerKey.create(LOOT_MODIFIERS);
 
     public static final Identifier RECIPE_PRIORITIES = key("recipe_priorities");
+
+    public static final Identifier TAG_PRIORITIES = key("tag_priorities");
 
     public static final Identifier DATA_MAPS = key("data_maps");
     public static final ListenerKey<DataMapLoader> DATA_MAPS_KEY = ListenerKey.create(DATA_MAPS);

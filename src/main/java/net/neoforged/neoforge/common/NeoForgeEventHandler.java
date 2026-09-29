@@ -25,6 +25,7 @@ import net.neoforged.bus.api.EventPriority;
 import net.neoforged.bus.api.SubscribeEvent;
 import net.neoforged.fml.classloading.transformation.ClassTransformStatistics;
 import net.neoforged.neoforge.common.crafting.RecipePriorityManager;
+import net.neoforged.neoforge.common.crafting.outgredient.TagPriorityManager;
 import net.neoforged.neoforge.common.loot.LootModifierManager;
 import net.neoforged.neoforge.common.util.FakePlayerFactory;
 import net.neoforged.neoforge.event.AddServerReloadListenersEvent;
@@ -150,6 +151,7 @@ public class NeoForgeEventHandler {
     @SubscribeEvent
     public void onResourceReload(AddServerReloadListenersEvent event) {
         event.addListener(NeoForgeReloadListeners.RECIPE_PRIORITIES, new RecipePriorityManager(event.getServerResources().getRecipeManager()));
+        event.addListener(NeoForgeReloadListeners.TAG_PRIORITIES, TagPriorityManager.INSTANCE);
         event.addListener(NeoForgeReloadListeners.CREATIVE_TABS, CreativeModeTabRegistry.getReloadListener());
 
         event.addRetainedListener(NeoForgeReloadListeners.LOOT_MODIFIERS_KEY, new LootModifierManager());
