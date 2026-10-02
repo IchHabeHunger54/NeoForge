@@ -7,6 +7,7 @@ package net.neoforged.neoforge.common.crafting.outgredient;
 
 import com.mojang.serialization.MapCodec;
 import com.mojang.serialization.codecs.RecordCodecBuilder;
+import java.util.Optional;
 import net.minecraft.core.Holder;
 import net.minecraft.core.component.DataComponentPatch;
 import net.minecraft.core.registries.BuiltInRegistries;
@@ -22,8 +23,6 @@ import net.minecraft.world.item.Items;
 import net.minecraft.world.item.crafting.display.SlotDisplay;
 import net.neoforged.neoforge.common.NeoForgeMod;
 
-import java.util.Optional;
-
 /// An [Outgredient] for [ItemStackTemplate]s which are created from a [TagKey] and an optional fallback [Item].
 /// Use [resolve] to get a concrete [ItemStackTemplate].
 ///
@@ -36,8 +35,7 @@ public record ItemTagOutgredient(TagKey<Item> tag, Optional<Holder<Item>> fallba
             TagKey.codec(Registries.ITEM).fieldOf("tag").forGetter(ItemTagOutgredient::tag),
             BuiltInRegistries.ITEM.holderByNameCodec().optionalFieldOf("fallback").forGetter(ItemTagOutgredient::fallback),
             ExtraCodecs.POSITIVE_INT.fieldOf("count").forGetter(ItemTagOutgredient::count),
-            DataComponentPatch.CODEC.optionalFieldOf("components", DataComponentPatch.EMPTY).forGetter(ItemTagOutgredient::components)
-    ).apply(inst, ItemTagOutgredient::new));
+            DataComponentPatch.CODEC.optionalFieldOf("components", DataComponentPatch.EMPTY).forGetter(ItemTagOutgredient::components)).apply(inst, ItemTagOutgredient::new));
     public static final StreamCodec<RegistryFriendlyByteBuf, ItemTagOutgredient> STREAM_CODEC = StreamCodec.composite(
             TagKey.streamCodec(Registries.ITEM), ItemTagOutgredient::tag,
             ByteBufCodecs.holderRegistry(Registries.ITEM).apply(ByteBufCodecs::optional), ItemTagOutgredient::fallback,
@@ -45,7 +43,7 @@ public record ItemTagOutgredient(TagKey<Item> tag, Optional<Holder<Item>> fallba
             DataComponentPatch.STREAM_CODEC, ItemTagOutgredient::components,
             ItemTagOutgredient::new);
 
-    /// @param tag        The [TagKey] to use to resolve the outgredient.
+    /// @param tag    The [TagKey] to use to resolve the outgredient.
     /// @param fallback   The fallback to use if resolving the tag did not yield a result.
     /// @param count      The count to use. Corresponds to [ItemStackTemplate#count()].
     /// @param components The data components to use. Corresponds to [ItemStackTemplate#components()].
@@ -53,27 +51,27 @@ public record ItemTagOutgredient(TagKey<Item> tag, Optional<Holder<Item>> fallba
         return new ItemTagOutgredient(tag, Optional.of(fallback), count, components);
     }
 
-    /// @param tag        The [TagKey] to use to resolve the outgredient.
+    /// @param tag    The [TagKey] to use to resolve the outgredient.
     /// @param count      The count to use. Corresponds to [ItemStackTemplate#count()].
     /// @param components The data components to use. Corresponds to [ItemStackTemplate#components()].
     public static ItemTagOutgredient of(TagKey<Item> tag, int count, DataComponentPatch components) {
         return new ItemTagOutgredient(tag, Optional.empty(), count, components);
     }
 
-    /// @param tag      The [TagKey] to use to resolve the outgredient.
+    /// @param tag  The [TagKey] to use to resolve the outgredient.
     /// @param fallback The fallback to use if resolving the tag did not yield a result.
     /// @param count    The count to use. Corresponds to [ItemStackTemplate#count()].
     public static ItemTagOutgredient of(TagKey<Item> tag, Holder<Item> fallback, int count) {
         return of(tag, fallback, count, DataComponentPatch.EMPTY);
     }
 
-    /// @param tag   The [TagKey] to use to resolve the outgredient.
+    /// @param tag The [TagKey] to use to resolve the outgredient.
     /// @param count The count to use. Corresponds to [ItemStackTemplate#count()].
     public static ItemTagOutgredient of(TagKey<Item> tag, int count) {
         return of(tag, count, DataComponentPatch.EMPTY);
     }
 
-    /// @param tag      The [TagKey] to use to resolve the outgredient.
+    /// @param tag  The [TagKey] to use to resolve the outgredient.
     /// @param fallback The fallback to use if resolving the tag did not yield a result.
     public static ItemTagOutgredient of(TagKey<Item> tag, Holder<Item> fallback) {
         return of(tag, fallback, 1);

@@ -7,6 +7,8 @@ package net.neoforged.neoforge.common.loot;
 
 import com.mojang.serialization.MapCodec;
 import com.mojang.serialization.codecs.RecordCodecBuilder;
+import java.util.Optional;
+import java.util.function.Consumer;
 import net.minecraft.core.Holder;
 import net.minecraft.tags.TagKey;
 import net.minecraft.world.item.Item;
@@ -21,15 +23,11 @@ import net.neoforged.neoforge.common.crafting.outgredient.ItemTagOutgredient;
 import net.neoforged.neoforge.common.crafting.outgredient.Outgredient;
 import net.neoforged.neoforge.common.crafting.outgredient.OutgredientCodecs;
 
-import java.util.Optional;
-import java.util.function.Consumer;
-
 /// A loot pool entry that resolves the item using an [Outgredient].
 public class OutgredientLootEntry extends SingleEntryContainerBase {
     @SuppressWarnings("unchecked") // suppress Outgredient<? extends ItemStackTemplate> -> Outgredient<ItemStackTemplate> unchecked warning
     public static final MapCodec<OutgredientLootEntry> CODEC = RecordCodecBuilder.mapCodec(inst -> inst.group(
-            OutgredientCodecs.ITEM_OUTGREDIENT_CODEC.fieldOf("outgredient").forGetter(it -> (Outgredient<ItemStackTemplate>) it.outgredient)
-    ).and(uniformFields(inst)).apply(inst, OutgredientLootEntry::new));
+            OutgredientCodecs.ITEM_OUTGREDIENT_CODEC.fieldOf("outgredient").forGetter(it -> (Outgredient<ItemStackTemplate>) it.outgredient)).and(uniformFields(inst)).apply(inst, OutgredientLootEntry::new));
     private final Outgredient<? extends ItemStackTemplate> outgredient;
 
     @SuppressWarnings("OptionalUsedAsFieldOrParameterType")

@@ -1,3 +1,8 @@
+/*
+ * Copyright (c) NeoForged and contributors
+ * SPDX-License-Identifier: LGPL-2.1-only
+ */
+
 package net.neoforged.neoforge.common.extensions;
 
 import net.minecraft.core.Holder;
@@ -18,7 +23,7 @@ import net.neoforged.neoforge.common.crafting.outgredient.ItemTagOutgredient;
 import net.neoforged.neoforge.common.crafting.outgredient.Outgredient;
 
 public interface ISimpleCookingRecipeBuilderExtension {
-    /// @param ingredient       The [Ingredient] of the campfire cooking recipe.
+    /// @param ingredient   The [Ingredient] of the campfire cooking recipe.
     /// @param craftingCategory The [RecipeCategory] to use.
     /// @param result           The result [Outgredient] to use.
     /// @param experience       The experience awarded when completing the recipe.
@@ -27,7 +32,7 @@ public interface ISimpleCookingRecipeBuilderExtension {
         return SimpleCookingRecipeBuilder.generic(ingredient, craftingCategory, CookingBookCategory.FOOD, result, experience, cookingTime, CampfireCookingRecipe::new);
     }
 
-    /// @param ingredient       The [Ingredient] of the blasting recipe.
+    /// @param ingredient   The [Ingredient] of the blasting recipe.
     /// @param craftingCategory The [RecipeCategory] to use.
     /// @param cookingCategory  The [CookingBookCategory] to use.
     /// @param result           The result [Outgredient] to use.
@@ -37,7 +42,7 @@ public interface ISimpleCookingRecipeBuilderExtension {
         return SimpleCookingRecipeBuilder.generic(ingredient, craftingCategory, cookingCategory, result, experience, cookingTime, BlastingRecipe::new);
     }
 
-    /// @param ingredient       The [Ingredient] of the smelting recipe.
+    /// @param ingredient   The [Ingredient] of the smelting recipe.
     /// @param craftingCategory The [RecipeCategory] to use.
     /// @param cookingCategory  The [CookingBookCategory] to use.
     /// @param result           The result [Outgredient] to use.
@@ -47,7 +52,7 @@ public interface ISimpleCookingRecipeBuilderExtension {
         return SimpleCookingRecipeBuilder.generic(ingredient, craftingCategory, cookingCategory, result, experience, cookingTime, SmeltingRecipe::new);
     }
 
-    /// @param ingredient       The [Ingredient] of the smoking recipe.
+    /// @param ingredient   The [Ingredient] of the smoking recipe.
     /// @param craftingCategory The [RecipeCategory] to use.
     /// @param result           The result [Outgredient] to use.
     /// @param experience       The experience awarded when completing the recipe.
@@ -56,7 +61,7 @@ public interface ISimpleCookingRecipeBuilderExtension {
         return SimpleCookingRecipeBuilder.generic(ingredient, craftingCategory, CookingBookCategory.FOOD, result, experience, cookingTime, SmokingRecipe::new);
     }
 
-    /// @param ingredient       The [Ingredient] of the recipe.
+    /// @param ingredient   The [Ingredient] of the recipe.
     /// @param craftingCategory The [RecipeCategory] to use.
     /// @param cookingCategory  The [CookingBookCategory] to use.
     /// @param tag              The [TagKey] to use to resolve the result [Outgredient].
@@ -71,7 +76,7 @@ public interface ISimpleCookingRecipeBuilderExtension {
         return SimpleCookingRecipeBuilder.generic(ingredient, craftingCategory, cookingCategory, ItemTagOutgredient.of(tag, fallback, count, components), experience, cookingTime, factory);
     }
 
-    /// @param ingredient       The [Ingredient] of the campfire cooking recipe.
+    /// @param ingredient   The [Ingredient] of the campfire cooking recipe.
     /// @param craftingCategory The [RecipeCategory] to use.
     /// @param tag              The [TagKey] to use to resolve the result [Outgredient].
     /// @param fallback         The fallback to use if resolving the tag did not yield a result.
@@ -83,7 +88,7 @@ public interface ISimpleCookingRecipeBuilderExtension {
         return campfireCooking(ingredient, craftingCategory, ItemTagOutgredient.of(tag, fallback, count, components), experience, cookingTime);
     }
 
-    /// @param ingredient       The [Ingredient] of the blasting recipe.
+    /// @param ingredient   The [Ingredient] of the blasting recipe.
     /// @param craftingCategory The [RecipeCategory] to use.
     /// @param cookingCategory  The [CookingBookCategory] to use.
     /// @param tag              The [TagKey] to use to resolve the result [Outgredient].
@@ -96,7 +101,7 @@ public interface ISimpleCookingRecipeBuilderExtension {
         return blasting(ingredient, craftingCategory, cookingCategory, ItemTagOutgredient.of(tag, fallback, count, components), experience, cookingTime);
     }
 
-    /// @param ingredient       The [Ingredient] of the smelting recipe.
+    /// @param ingredient   The [Ingredient] of the smelting recipe.
     /// @param craftingCategory The [RecipeCategory] to use.
     /// @param cookingCategory  The [CookingBookCategory] to use.
     /// @param tag              The [TagKey] to use to resolve the result [Outgredient].
@@ -109,7 +114,7 @@ public interface ISimpleCookingRecipeBuilderExtension {
         return smelting(ingredient, craftingCategory, cookingCategory, ItemTagOutgredient.of(tag, fallback, count, components), experience, cookingTime);
     }
 
-    /// @param ingredient       The [Ingredient] of the smoking recipe.
+    /// @param ingredient   The [Ingredient] of the smoking recipe.
     /// @param craftingCategory The [RecipeCategory] to use.
     /// @param tag              The [TagKey] to use to resolve the result [Outgredient].
     /// @param fallback         The fallback to use if resolving the tag did not yield a result.
@@ -121,7 +126,7 @@ public interface ISimpleCookingRecipeBuilderExtension {
         return smoking(ingredient, craftingCategory, ItemTagOutgredient.of(tag, fallback, count, components), experience, cookingTime);
     }
 
-    /// @param ingredient       The [Ingredient] of the recipe.
+    /// @param ingredient   The [Ingredient] of the recipe.
     /// @param craftingCategory The [RecipeCategory] to use.
     /// @param cookingCategory  The [CookingBookCategory] to use.
     /// @param tag              The [TagKey] to use to resolve the result [Outgredient].
@@ -135,7 +140,7 @@ public interface ISimpleCookingRecipeBuilderExtension {
         return SimpleCookingRecipeBuilder.generic(ingredient, craftingCategory, cookingCategory, ItemTagOutgredient.of(tag, count, components), experience, cookingTime, factory);
     }
 
-    /// @param ingredient       The [Ingredient] of the campfire cooking recipe.
+    /// @param ingredient   The [Ingredient] of the campfire cooking recipe.
     /// @param craftingCategory The [RecipeCategory] to use.
     /// @param tag              The [TagKey] to use to resolve the result [Outgredient].
     /// @param count            The count to use. Corresponds to [ItemStackTemplate#count()].
@@ -146,7 +151,7 @@ public interface ISimpleCookingRecipeBuilderExtension {
         return campfireCooking(ingredient, craftingCategory, ItemTagOutgredient.of(tag, count, components), experience, cookingTime);
     }
 
-    /// @param ingredient       The [Ingredient] of the blasting recipe.
+    /// @param ingredient   The [Ingredient] of the blasting recipe.
     /// @param craftingCategory The [RecipeCategory] to use.
     /// @param cookingCategory  The [CookingBookCategory] to use.
     /// @param tag              The [TagKey] to use to resolve the result [Outgredient].
@@ -158,7 +163,7 @@ public interface ISimpleCookingRecipeBuilderExtension {
         return blasting(ingredient, craftingCategory, cookingCategory, ItemTagOutgredient.of(tag, count, components), experience, cookingTime);
     }
 
-    /// @param ingredient       The [Ingredient] of the smelting recipe.
+    /// @param ingredient   The [Ingredient] of the smelting recipe.
     /// @param craftingCategory The [RecipeCategory] to use.
     /// @param cookingCategory  The [CookingBookCategory] to use.
     /// @param tag              The [TagKey] to use to resolve the result [Outgredient].
@@ -170,7 +175,7 @@ public interface ISimpleCookingRecipeBuilderExtension {
         return smelting(ingredient, craftingCategory, cookingCategory, ItemTagOutgredient.of(tag, count, components), experience, cookingTime);
     }
 
-    /// @param ingredient       The [Ingredient] of the smoking recipe.
+    /// @param ingredient   The [Ingredient] of the smoking recipe.
     /// @param craftingCategory The [RecipeCategory] to use.
     /// @param tag              The [TagKey] to use to resolve the result [Outgredient].
     /// @param count            The count to use. Corresponds to [ItemStackTemplate#count()].
@@ -181,7 +186,7 @@ public interface ISimpleCookingRecipeBuilderExtension {
         return smoking(ingredient, craftingCategory, ItemTagOutgredient.of(tag, count, components), experience, cookingTime);
     }
 
-    /// @param ingredient       The [Ingredient] of the recipe.
+    /// @param ingredient   The [Ingredient] of the recipe.
     /// @param craftingCategory The [RecipeCategory] to use.
     /// @param cookingCategory  The [CookingBookCategory] to use.
     /// @param tag              The [TagKey] to use to resolve the result [Outgredient].
@@ -195,7 +200,7 @@ public interface ISimpleCookingRecipeBuilderExtension {
         return SimpleCookingRecipeBuilder.generic(ingredient, craftingCategory, cookingCategory, ItemTagOutgredient.of(tag, fallback, count), experience, cookingTime, factory);
     }
 
-    /// @param ingredient       The [Ingredient] of the campfire cooking recipe.
+    /// @param ingredient   The [Ingredient] of the campfire cooking recipe.
     /// @param craftingCategory The [RecipeCategory] to use.
     /// @param tag              The [TagKey] to use to resolve the result [Outgredient].
     /// @param fallback         The fallback to use if resolving the tag did not yield a result.
@@ -206,7 +211,7 @@ public interface ISimpleCookingRecipeBuilderExtension {
         return campfireCooking(ingredient, craftingCategory, ItemTagOutgredient.of(tag, fallback, count), experience, cookingTime);
     }
 
-    /// @param ingredient       The [Ingredient] of the blasting recipe.
+    /// @param ingredient   The [Ingredient] of the blasting recipe.
     /// @param craftingCategory The [RecipeCategory] to use.
     /// @param cookingCategory  The [CookingBookCategory] to use.
     /// @param tag              The [TagKey] to use to resolve the result [Outgredient].
@@ -218,7 +223,7 @@ public interface ISimpleCookingRecipeBuilderExtension {
         return blasting(ingredient, craftingCategory, cookingCategory, ItemTagOutgredient.of(tag, fallback, count), experience, cookingTime);
     }
 
-    /// @param ingredient       The [Ingredient] of the smelting recipe.
+    /// @param ingredient   The [Ingredient] of the smelting recipe.
     /// @param craftingCategory The [RecipeCategory] to use.
     /// @param cookingCategory  The [CookingBookCategory] to use.
     /// @param tag              The [TagKey] to use to resolve the result [Outgredient].
@@ -230,7 +235,7 @@ public interface ISimpleCookingRecipeBuilderExtension {
         return smelting(ingredient, craftingCategory, cookingCategory, ItemTagOutgredient.of(tag, fallback, count), experience, cookingTime);
     }
 
-    /// @param ingredient       The [Ingredient] of the smoking recipe.
+    /// @param ingredient   The [Ingredient] of the smoking recipe.
     /// @param craftingCategory The [RecipeCategory] to use.
     /// @param tag              The [TagKey] to use to resolve the result [Outgredient].
     /// @param fallback         The fallback to use if resolving the tag did not yield a result.
@@ -241,7 +246,7 @@ public interface ISimpleCookingRecipeBuilderExtension {
         return smoking(ingredient, craftingCategory, ItemTagOutgredient.of(tag, fallback, count), experience, cookingTime);
     }
 
-    /// @param ingredient       The [Ingredient] of the recipe.
+    /// @param ingredient   The [Ingredient] of the recipe.
     /// @param craftingCategory The [RecipeCategory] to use.
     /// @param cookingCategory  The [CookingBookCategory] to use.
     /// @param tag              The [TagKey] to use to resolve the result [Outgredient].
@@ -254,7 +259,7 @@ public interface ISimpleCookingRecipeBuilderExtension {
         return SimpleCookingRecipeBuilder.generic(ingredient, craftingCategory, cookingCategory, ItemTagOutgredient.of(tag, count), experience, cookingTime, factory);
     }
 
-    /// @param ingredient       The [Ingredient] of the campfire cooking recipe.
+    /// @param ingredient   The [Ingredient] of the campfire cooking recipe.
     /// @param craftingCategory The [RecipeCategory] to use.
     /// @param tag              The [TagKey] to use to resolve the result [Outgredient].
     /// @param count            The count to use. Corresponds to [ItemStackTemplate#count()].
@@ -264,7 +269,7 @@ public interface ISimpleCookingRecipeBuilderExtension {
         return campfireCooking(ingredient, craftingCategory, ItemTagOutgredient.of(tag, count), experience, cookingTime);
     }
 
-    /// @param ingredient       The [Ingredient] of the blasting recipe.
+    /// @param ingredient   The [Ingredient] of the blasting recipe.
     /// @param craftingCategory The [RecipeCategory] to use.
     /// @param cookingCategory  The [CookingBookCategory] to use.
     /// @param tag              The [TagKey] to use to resolve the result [Outgredient].
@@ -275,7 +280,7 @@ public interface ISimpleCookingRecipeBuilderExtension {
         return blasting(ingredient, craftingCategory, cookingCategory, ItemTagOutgredient.of(tag, count), experience, cookingTime);
     }
 
-    /// @param ingredient       The [Ingredient] of the smelting recipe.
+    /// @param ingredient   The [Ingredient] of the smelting recipe.
     /// @param craftingCategory The [RecipeCategory] to use.
     /// @param cookingCategory  The [CookingBookCategory] to use.
     /// @param tag              The [TagKey] to use to resolve the result [Outgredient].
@@ -286,7 +291,7 @@ public interface ISimpleCookingRecipeBuilderExtension {
         return smelting(ingredient, craftingCategory, cookingCategory, ItemTagOutgredient.of(tag, count), experience, cookingTime);
     }
 
-    /// @param ingredient       The [Ingredient] of the smoking recipe.
+    /// @param ingredient   The [Ingredient] of the smoking recipe.
     /// @param craftingCategory The [RecipeCategory] to use.
     /// @param tag              The [TagKey] to use to resolve the result [Outgredient].
     /// @param count            The count to use. Corresponds to [ItemStackTemplate#count()].
@@ -296,7 +301,7 @@ public interface ISimpleCookingRecipeBuilderExtension {
         return smoking(ingredient, craftingCategory, ItemTagOutgredient.of(tag, count), experience, cookingTime);
     }
 
-    /// @param ingredient       The [Ingredient] of the recipe.
+    /// @param ingredient   The [Ingredient] of the recipe.
     /// @param craftingCategory The [RecipeCategory] to use.
     /// @param cookingCategory  The [CookingBookCategory] to use.
     /// @param tag              The [TagKey] to use to resolve the result [Outgredient].
@@ -309,7 +314,7 @@ public interface ISimpleCookingRecipeBuilderExtension {
         return SimpleCookingRecipeBuilder.generic(ingredient, craftingCategory, cookingCategory, ItemTagOutgredient.of(tag, fallback), experience, cookingTime, factory);
     }
 
-    /// @param ingredient       The [Ingredient] of the campfire cooking recipe.
+    /// @param ingredient   The [Ingredient] of the campfire cooking recipe.
     /// @param craftingCategory The [RecipeCategory] to use.
     /// @param tag              The [TagKey] to use to resolve the result [Outgredient].
     /// @param fallback         The fallback to use if resolving the tag did not yield a result.
@@ -319,7 +324,7 @@ public interface ISimpleCookingRecipeBuilderExtension {
         return campfireCooking(ingredient, craftingCategory, ItemTagOutgredient.of(tag, fallback), experience, cookingTime);
     }
 
-    /// @param ingredient       The [Ingredient] of the blasting recipe.
+    /// @param ingredient   The [Ingredient] of the blasting recipe.
     /// @param craftingCategory The [RecipeCategory] to use.
     /// @param cookingCategory  The [CookingBookCategory] to use.
     /// @param tag              The [TagKey] to use to resolve the result [Outgredient].
@@ -330,7 +335,7 @@ public interface ISimpleCookingRecipeBuilderExtension {
         return blasting(ingredient, craftingCategory, cookingCategory, ItemTagOutgredient.of(tag, fallback), experience, cookingTime);
     }
 
-    /// @param ingredient       The [Ingredient] of the smelting recipe.
+    /// @param ingredient   The [Ingredient] of the smelting recipe.
     /// @param craftingCategory The [RecipeCategory] to use.
     /// @param cookingCategory  The [CookingBookCategory] to use.
     /// @param tag              The [TagKey] to use to resolve the result [Outgredient].
@@ -341,7 +346,7 @@ public interface ISimpleCookingRecipeBuilderExtension {
         return smelting(ingredient, craftingCategory, cookingCategory, ItemTagOutgredient.of(tag, fallback), experience, cookingTime);
     }
 
-    /// @param ingredient       The [Ingredient] of the smoking recipe.
+    /// @param ingredient   The [Ingredient] of the smoking recipe.
     /// @param craftingCategory The [RecipeCategory] to use.
     /// @param tag              The [TagKey] to use to resolve the result [Outgredient].
     /// @param fallback         The fallback to use if resolving the tag did not yield a result.
@@ -351,7 +356,7 @@ public interface ISimpleCookingRecipeBuilderExtension {
         return smoking(ingredient, craftingCategory, ItemTagOutgredient.of(tag, fallback), experience, cookingTime);
     }
 
-    /// @param ingredient       The [Ingredient] of the recipe.
+    /// @param ingredient   The [Ingredient] of the recipe.
     /// @param craftingCategory The [RecipeCategory] to use.
     /// @param cookingCategory  The [CookingBookCategory] to use.
     /// @param tag              The [TagKey] to use to resolve the result [Outgredient].
@@ -363,7 +368,7 @@ public interface ISimpleCookingRecipeBuilderExtension {
         return SimpleCookingRecipeBuilder.generic(ingredient, craftingCategory, cookingCategory, ItemTagOutgredient.of(tag), experience, cookingTime, factory);
     }
 
-    /// @param ingredient       The [Ingredient] of the campfire cooking recipe.
+    /// @param ingredient   The [Ingredient] of the campfire cooking recipe.
     /// @param craftingCategory The [RecipeCategory] to use.
     /// @param tag              The [TagKey] to use to resolve the result [Outgredient].
     /// @param experience       The experience awarded when completing the recipe.
@@ -372,7 +377,7 @@ public interface ISimpleCookingRecipeBuilderExtension {
         return campfireCooking(ingredient, craftingCategory, ItemTagOutgredient.of(tag), experience, cookingTime);
     }
 
-    /// @param ingredient       The [Ingredient] of the blasting recipe.
+    /// @param ingredient   The [Ingredient] of the blasting recipe.
     /// @param craftingCategory The [RecipeCategory] to use.
     /// @param cookingCategory  The [CookingBookCategory] to use.
     /// @param tag              The [TagKey] to use to resolve the result [Outgredient].
@@ -382,7 +387,7 @@ public interface ISimpleCookingRecipeBuilderExtension {
         return blasting(ingredient, craftingCategory, cookingCategory, ItemTagOutgredient.of(tag), experience, cookingTime);
     }
 
-    /// @param ingredient       The [Ingredient] of the smelting recipe.
+    /// @param ingredient   The [Ingredient] of the smelting recipe.
     /// @param craftingCategory The [RecipeCategory] to use.
     /// @param cookingCategory  The [CookingBookCategory] to use.
     /// @param tag              The [TagKey] to use to resolve the result [Outgredient].
@@ -392,7 +397,7 @@ public interface ISimpleCookingRecipeBuilderExtension {
         return smelting(ingredient, craftingCategory, cookingCategory, ItemTagOutgredient.of(tag), experience, cookingTime);
     }
 
-    /// @param ingredient       The [Ingredient] of the smoking recipe.
+    /// @param ingredient   The [Ingredient] of the smoking recipe.
     /// @param craftingCategory The [RecipeCategory] to use.
     /// @param tag              The [TagKey] to use to resolve the result [Outgredient].
     /// @param experience       The experience awarded when completing the recipe.

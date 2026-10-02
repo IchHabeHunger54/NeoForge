@@ -5,11 +5,10 @@
 
 package net.neoforged.neoforge.common.crafting.outgredient;
 
+import java.util.stream.Stream;
 import net.minecraft.util.context.ContextMap;
 import net.minecraft.world.item.ItemStackTemplate;
 import net.minecraft.world.item.crafting.display.DisplayContentsFactory;
-
-import java.util.stream.Stream;
 
 /// Convenience interface for [OutgredientSlotDisplay]s of type [ItemStackTemplate].
 /// Automatically resolves the display for [ItemStackTemplate]s.

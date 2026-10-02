@@ -106,13 +106,13 @@ public class TagPriorityManager extends SimplePreparableReloadListener<Map<Resou
                         // Map to an Optional<TagPriorities<T>>, warning if we're empty or encountered a load error
                         .<Optional<TagPriorities<T>>>mapOrElse(
                                 parsed -> {
-                                        if (parsed.isEmpty()) {
-                                            LOGGER.debug("Skipping loading data file '{}' from '{}' as its conditions were not met", id, location);
-                                        }
-                                        return parsed;
+                                    if (parsed.isEmpty()) {
+                                        LOGGER.debug("Skipping loading data file '{}' from '{}' as its conditions were not met", id, location);
+                                    }
+                                    return parsed;
                                 }, error -> {
-                                        LOGGER.error("Couldn't parse data file '{}' from '{}': {}", id, location, error);
-                                        return Optional.empty();
+                                    LOGGER.error("Couldn't parse data file '{}' from '{}': {}", id, location, error);
+                                    return Optional.empty();
                                 })
                         // If present, merge with the previous values. If empty, keep the old values.
                         .map(priorities::merge)
