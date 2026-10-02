@@ -6,16 +6,15 @@
 package net.neoforged.neoforge.common.crafting.outgredient;
 
 import com.mojang.serialization.Codec;
-import net.minecraft.core.Registry;
-import net.minecraft.resources.Identifier;
-import net.minecraft.resources.ResourceKey;
-import net.minecraft.tags.TagKey;
-
 import java.util.ArrayList;
 import java.util.HashMap;
 import java.util.List;
 import java.util.Map;
 import java.util.Optional;
+import net.minecraft.core.Registry;
+import net.minecraft.resources.Identifier;
+import net.minecraft.resources.ResourceKey;
+import net.minecraft.tags.TagKey;
 
 /// Represents a map of [TagKey]s to [Identifier] lists. The lists are [Identifier]s and not `T`s in order to allow for potentially absent entries.
 public record TagPriorities<T>(Map<TagKey<T>, List<Identifier>> values) {

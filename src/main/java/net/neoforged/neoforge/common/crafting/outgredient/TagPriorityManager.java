@@ -8,6 +8,12 @@ package net.neoforged.neoforge.common.crafting.outgredient;
 import com.mojang.logging.LogUtils;
 import com.mojang.serialization.Codec;
 import com.mojang.serialization.JsonOps;
+import java.io.IOException;
+import java.io.Reader;
+import java.util.HashMap;
+import java.util.List;
+import java.util.Map;
+import java.util.Optional;
 import net.minecraft.core.Holder;
 import net.minecraft.core.Registry;
 import net.minecraft.resources.FileToIdConverter;
@@ -23,13 +29,6 @@ import net.neoforged.neoforge.common.conditions.ConditionalOps;
 import net.neoforged.neoforge.common.config.NeoForgeServerConfig;
 import org.slf4j.Logger;
 
-import java.io.IOException;
-import java.io.Reader;
-import java.util.HashMap;
-import java.util.List;
-import java.util.Map;
-import java.util.Optional;
-
 /// Reload listener for [TagPriorities].
 public class TagPriorityManager extends SimplePreparableReloadListener<Map<ResourceKey<? extends Registry<?>>, TagPriorities<?>>> {
     private static final Logger LOGGER = LogUtils.getLogger();
@@ -37,8 +36,7 @@ public class TagPriorityManager extends SimplePreparableReloadListener<Map<Resou
     public static final TagPriorityManager INSTANCE = new TagPriorityManager();
     private Map<ResourceKey<? extends Registry<?>>, TagPriorities<?>> tagPriorities = new HashMap<>();
 
-    private TagPriorityManager() {
-    }
+    private TagPriorityManager() {}
 
     /// Resolves a [TagPriorities] into an entry, or into an empty [Optional].
     /// First, the [TagPriorities] loaded from datapacks are checked.
@@ -71,9 +69,9 @@ public class TagPriorityManager extends SimplePreparableReloadListener<Map<Resou
         List<Holder<T>> tagContents = registry.getOrThrow(tagKey).contents();
         for (String modId : modIds) {
             List<Holder<T>> filteredTagContents = tagContents
-                .stream()
-                .filter(e -> e.unwrapKey().map(key -> key.identifier().getNamespace().equals(modId)).orElse(false))
-                .toList();
+                    .stream()
+                    .filter(e -> e.unwrapKey().map(key -> key.identifier().getNamespace().equals(modId)).orElse(false))
+                    .toList();
             if (filteredTagContents.size() == 1) return Optional.of(tagContents.getFirst().value());
         }
         return Optional.empty();
@@ -105,20 +103,20 @@ public class TagPriorityManager extends SimplePreparableReloadListener<Map<Resou
             try (Reader reader = resource.openAsReader()) {
                 // Parse the file
                 priorities = codec.parse(JsonOps.INSTANCE, StrictJsonParser.parse(reader))
-                    // Map to an Optional<TagPriorities<T>>, warning if we're empty or encountered a load error
-                    .<Optional<TagPriorities<T>>>mapOrElse(
-                        parsed -> {
-                                if (parsed.isEmpty()) {
-                                    LOGGER.debug("Skipping loading data file '{}' from '{}' as its conditions were not met", id, location);
-                                }
-                                return parsed;
-                        }, error -> {
-                                LOGGER.error("Couldn't parse data file '{}' from '{}': {}", id, location, error);
-                                return Optional.empty();
-                        })
-                    // If present, merge with the previous values. If empty, keep the old values.
-                    .map(priorities::merge)
-                    .orElse(priorities);
+                        // Map to an Optional<TagPriorities<T>>, warning if we're empty or encountered a load error
+                        .<Optional<TagPriorities<T>>>mapOrElse(
+                                parsed -> {
+                                        if (parsed.isEmpty()) {
+                                            LOGGER.debug("Skipping loading data file '{}' from '{}' as its conditions were not met", id, location);
+                                        }
+                                        return parsed;
+                                }, error -> {
+                                        LOGGER.error("Couldn't parse data file '{}' from '{}': {}", id, location, error);
+                                        return Optional.empty();
+                                })
+                        // If present, merge with the previous values. If empty, keep the old values.
+                        .map(priorities::merge)
+                        .orElse(priorities);
             } catch (IOException e) {
                 LOGGER.error("Couldn't parse data file '{}' from '{}'", id, location, e);
             }

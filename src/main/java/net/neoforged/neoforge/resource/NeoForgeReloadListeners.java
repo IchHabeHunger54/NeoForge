@@ -7,7 +7,6 @@ package net.neoforged.neoforge.resource;
 
 import net.minecraft.resources.Identifier;
 import net.neoforged.neoforge.common.NeoForgeMod;
-import net.neoforged.neoforge.common.crafting.outgredient.TagPriorityManager;
 import net.neoforged.neoforge.common.loot.LootModifierManager;
 import net.neoforged.neoforge.registries.DataMapLoader;
 

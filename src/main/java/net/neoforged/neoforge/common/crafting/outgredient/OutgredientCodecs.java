@@ -7,6 +7,7 @@ package net.neoforged.neoforge.common.crafting.outgredient;
 
 import com.mojang.datafixers.util.Either;
 import com.mojang.serialization.Codec;
+import java.util.function.Function;
 import net.minecraft.network.RegistryFriendlyByteBuf;
 import net.minecraft.network.codec.ByteBufCodecs;
 import net.minecraft.network.codec.StreamCodec;
@@ -14,20 +15,18 @@ import net.minecraft.world.item.ItemStackTemplate;
 import net.neoforged.neoforge.fluids.FluidStackTemplate;
 import net.neoforged.neoforge.registries.NeoForgeRegistries;
 
-import java.util.function.Function;
-
 /// Utility class that contains various codecs related to outgredients.
 public final class OutgredientCodecs {
     public static final Codec<Outgredient<ItemStackTemplate>> ITEM_OUTGREDIENT_CODEC = codec(ItemStackTemplate.CODEC, NeoForgeRegistries.ITEM_OUTGREDIENT_TYPES.byNameCodec(), Outgredient::of);
     public static final Codec<Outgredient<FluidStackTemplate>> FLUID_OUTGREDIENT_CODEC = codec(FluidStackTemplate.CODEC, NeoForgeRegistries.FLUID_OUTGREDIENT_TYPES.byNameCodec(), Outgredient::of);
     public static final StreamCodec<RegistryFriendlyByteBuf, Outgredient<ItemStackTemplate>> ITEM_OUTGREDIENT_STREAM_CODEC = streamCodec(
-        ItemStackTemplate.STREAM_CODEC,
-        ByteBufCodecs.registry(NeoForgeRegistries.Keys.ITEM_OUTGREDIENT_TYPES).dispatch(Outgredient::type, OutgredientType::streamCodec),
-        Outgredient::of);
+            ItemStackTemplate.STREAM_CODEC,
+            ByteBufCodecs.registry(NeoForgeRegistries.Keys.ITEM_OUTGREDIENT_TYPES).dispatch(Outgredient::type, OutgredientType::streamCodec),
+            Outgredient::of);
     public static final StreamCodec<RegistryFriendlyByteBuf, Outgredient<FluidStackTemplate>> FLUID_OUTGREDIENT_STREAM_CODEC = streamCodec(
-        FluidStackTemplate.STREAM_CODEC,
-        ByteBufCodecs.registry(NeoForgeRegistries.Keys.FLUID_OUTGREDIENT_TYPES).dispatch(Outgredient::type, OutgredientType::streamCodec),
-        Outgredient::of);
+            FluidStackTemplate.STREAM_CODEC,
+            ByteBufCodecs.registry(NeoForgeRegistries.Keys.FLUID_OUTGREDIENT_TYPES).dispatch(Outgredient::type, OutgredientType::streamCodec),
+            Outgredient::of);
     private static final int CUSTOM_OUTGREDIENT_MARKER = -1000;
 
     private OutgredientCodecs() {}
@@ -55,9 +54,9 @@ public final class OutgredientCodecs {
     /// @return A [StreamCodec] for [Outgredient]s of type `T`.
     /// @see net.neoforged.neoforge.common.crafting.IngredientCodecs#streamCodec(StreamCodec)
     public static <T> StreamCodec<RegistryFriendlyByteBuf, Outgredient<T>> streamCodec(
-        StreamCodec<RegistryFriendlyByteBuf, T> vanillaCodec,
-        StreamCodec<RegistryFriendlyByteBuf, Outgredient<T>> outgredientCodec,
-        Function<T, ? extends Outgredient<T>> toOutgredient) {
+            StreamCodec<RegistryFriendlyByteBuf, T> vanillaCodec,
+            StreamCodec<RegistryFriendlyByteBuf, Outgredient<T>> outgredientCodec,
+            Function<T, ? extends Outgredient<T>> toOutgredient) {
         return new StreamCodec<>() {
             @Override
             public Outgredient<T> decode(RegistryFriendlyByteBuf buf) {
