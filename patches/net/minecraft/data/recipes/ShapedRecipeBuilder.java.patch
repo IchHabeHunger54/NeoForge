@@ -1,13 +1,7 @@
 --- a/net/minecraft/data/recipes/ShapedRecipeBuilder.java
 +++ b/net/minecraft/data/recipes/ShapedRecipeBuilder.java
-@@ -17,19 +_,24 @@
- import net.minecraft.world.level.ItemLike;
- import org.jspecify.annotations.Nullable;
- 
--import net.neoforged.neoforge.common.extensions.IShapedRecipeBuilderExtension;
--
--public class ShapedRecipeBuilder implements RecipeBuilder, IShapedRecipeBuilderExtension {
-+public class ShapedRecipeBuilder implements RecipeBuilder {
+@@ -22,14 +_,21 @@
+ public class ShapedRecipeBuilder implements RecipeBuilder, IShapedRecipeBuilderExtension {
      private final HolderGetter<Item> items;
      private final RecipeCategory category;
 -    private final ItemStackTemplate result;

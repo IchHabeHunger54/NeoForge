@@ -1,13 +1,7 @@
 --- a/net/minecraft/data/recipes/SimpleCookingRecipeBuilder.java
 +++ b/net/minecraft/data/recipes/SimpleCookingRecipeBuilder.java
-@@ -15,18 +_,17 @@
- import net.minecraft.world.level.ItemLike;
- import org.jspecify.annotations.Nullable;
- 
--import net.neoforged.neoforge.common.extensions.ISimpleCookingRecipeBuilderExtension;
--
--public class SimpleCookingRecipeBuilder implements RecipeBuilder, ISimpleCookingRecipeBuilderExtension {
-+public class SimpleCookingRecipeBuilder implements RecipeBuilder {
+@@ -20,13 +_,14 @@
+ public class SimpleCookingRecipeBuilder implements RecipeBuilder, ISimpleCookingRecipeBuilderExtension {
      private final RecipeCategory craftingCategory;
      private final CookingBookCategory cookingCategory;
 -    private final ItemStackTemplate result;

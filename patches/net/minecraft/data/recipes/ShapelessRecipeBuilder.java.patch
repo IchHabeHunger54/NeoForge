@@ -1,13 +1,7 @@
 --- a/net/minecraft/data/recipes/ShapelessRecipeBuilder.java
 +++ b/net/minecraft/data/recipes/ShapelessRecipeBuilder.java
-@@ -14,17 +_,22 @@
- import net.minecraft.world.level.ItemLike;
- import org.jspecify.annotations.Nullable;
- 
--import net.neoforged.neoforge.common.extensions.IShapelessRecipeBuilderExtension;
--
--public class ShapelessRecipeBuilder implements RecipeBuilder, IShapelessRecipeBuilderExtension {
-+public class ShapelessRecipeBuilder implements RecipeBuilder {
+@@ -19,12 +_,19 @@
+ public class ShapelessRecipeBuilder implements RecipeBuilder, IShapelessRecipeBuilderExtension {
      private final HolderGetter<Item> items;
      private final RecipeCategory category;
 -    private final ItemStackTemplate result;
